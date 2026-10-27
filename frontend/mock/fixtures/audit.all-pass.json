@@ -1,0 +1,45 @@
+{
+  "ts": "2026-10-27T10:15:30.000Z",
+  "results": [
+    {
+      "invariant": "Privileged mode disabled",
+      "status": "pass",
+      "detail": "All 4 containers running without privileged flags"
+    },
+    {
+      "invariant": "Linux capabilities dropped",
+      "status": "pass",
+      "detail": "CAP_SYS_ADMIN, CAP_NET_ADMIN, CAP_SYS_PTRACE dropped"
+    },
+    {
+      "invariant": "Read-only root filesystem",
+      "status": "pass",
+      "detail": "Container root mounted read-only, ephemeral tmpfs only"
+    },
+    {
+      "invariant": "Docker socket unmounted",
+      "status": "pass",
+      "detail": "/var/run/docker.sock not present in any tenant mount"
+    },
+    {
+      "invariant": "Networks internal-only",
+      "status": "pass",
+      "detail": "No default gateway, internal: true on all bridge networks"
+    },
+    {
+      "invariant": "One network per cell boundary",
+      "status": "pass",
+      "detail": "Red-Broker (net_red) and Broker-Blue (net_blue) strictly segmented"
+    },
+    {
+      "invariant": "Evaluator network disabled",
+      "status": "pass",
+      "detail": "Evaluator container running in network_mode: none"
+    },
+    {
+      "invariant": "seccomp security profile active",
+      "status": "pass",
+      "detail": "Default seccomp profile loaded, blocking 44 dangerous syscalls"
+    }
+  ]
+}

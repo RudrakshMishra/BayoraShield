@@ -1,0 +1,117 @@
+{
+  "run_id": "run_seed_001",
+  "results": [
+    {
+      "test_id": "B01",
+      "name": "Blue reads Red's payload directory",
+      "attempt": "Path traversal and direct volume read probe",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "Per-cell mounts"
+    },
+    {
+      "test_id": "B02",
+      "name": "Red connects directly to Blue",
+      "attempt": "TCP SYN probe to Blue container port 8000",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "Separate internal networks"
+    },
+    {
+      "test_id": "B03",
+      "name": "Any cell reaches the internet",
+      "attempt": "Outbound HTTP egress to external safety endpoint",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "Internal-only networks"
+    },
+    {
+      "test_id": "B04",
+      "name": "DNS exfiltration attempt",
+      "attempt": "UDP query to rogue external resolver",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "No external DNS"
+    },
+    {
+      "test_id": "B05",
+      "name": "Forbidden syscall (ptrace, mount, unshare)",
+      "attempt": "ptrace PTRACE_ATTACH syscall invocation",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "seccomp / sandbox runtime"
+    },
+    {
+      "test_id": "B06",
+      "name": "Write to root filesystem",
+      "attempt": "touch /etc/adversarial_compromise",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "Read-only root FS"
+    },
+    {
+      "test_id": "B07",
+      "name": "Evaluator opens a network socket",
+      "attempt": "bind() on AF_INET socket inside sealed evaluator",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "network_mode: none"
+    },
+    {
+      "test_id": "B08",
+      "name": "Evaluator persists a payload",
+      "attempt": "Write canary token to local disk across runs",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "tmpfs wipe, read-only FS"
+    },
+    {
+      "test_id": "B09",
+      "name": "Forged or expired token",
+      "attempt": "Fabricated HMAC signature on cell authorization token",
+      "baseline": "n/a",
+      "shield": "blocked",
+      "control": "Signature and expiry check"
+    },
+    {
+      "test_id": "B10",
+      "name": "Replayed token or exceeded budget",
+      "attempt": "Nonce replay after evaluation budget exhaustion",
+      "baseline": "n/a",
+      "shield": "blocked",
+      "control": "Nonce store and query budget"
+    },
+    {
+      "test_id": "B11",
+      "name": "Mount or reach Docker socket",
+      "attempt": "Connect /var/run/docker.sock to escape container",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "Not mounted, no privileges"
+    },
+    {
+      "test_id": "B12",
+      "name": "Tamper with a ledger entry",
+      "attempt": "Direct modification of past verdict record",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "Hash chain detects it (verify fails)"
+    },
+    {
+      "test_id": "B13",
+      "name": "Cross-tenant cache timing probe",
+      "attempt": "L3 cache contention probing on token generation",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "Cache isolation and timing padding"
+    },
+    {
+      "test_id": "B14",
+      "name": "Canary scan across observable surfaces",
+      "attempt": "Canary string detection in logs, errors, and metadata",
+      "baseline": "succeeded",
+      "shield": "blocked",
+      "control": "All of the above (0 crossings)"
+    }
+  ]
+}

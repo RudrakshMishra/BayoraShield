@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0B1727;
+  --surface: #12294A;
+  --surface-2: #17345C;
+  --text: #F1F4F9;
+  --muted: #9AA7B8;
+  --red: #E5484D;
+  --blue: #2F6FED;
+  --grey: #6B7A8C;
+  --gold: #E8A33D;
+  --green: #1FA971;
+  --teal: #0E7C86;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
