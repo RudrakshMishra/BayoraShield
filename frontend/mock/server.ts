@@ -744,16 +744,37 @@ app.post("/api/reset", authenticate, requireRole("admin"), (req: Request, res: R
   return res.status(202).json({ started: true });
 });
 
-// Fallback 404
-app.use((_req: Request, res: Response) => {
+// Static frontend serving and SPA fallback
+const distDir = path.resolve(__dirname, "../dist");
+const rootDir = path.resolve(__dirname, "../..");
+
+if (fs.existsSync(distDir)) {
+  app.use(express.static(distDir));
+}
+
+// Fallback 404 for unhandled API calls
+app.all("/api/*", (_req: Request, res: Response) => {
   return sendError(res, 404, "NOT_FOUND", "Endpoint not found");
+});
+
+// Client-side routing fallback: serve dist/index.html or root index.html
+app.get("*", (_req: Request, res: Response) => {
+  const distIndex = path.join(distDir, "index.html");
+  if (fs.existsSync(distIndex)) {
+    return res.sendFile(distIndex);
+  }
+  const rootIndex = path.join(rootDir, "index.html");
+  if (fs.existsSync(rootIndex)) {
+    return res.sendFile(rootIndex);
+  }
+  return sendError(res, 404, "NOT_FOUND", "Frontend build not found. Run npm run build first.");
 });
 
 // If run directly
 if (process.env.NODE_ENV !== "test") {
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`[BayoraShield Mock Server] listening on http://0.0.0.0:${PORT}`);
-    console.log(`[BayoraShield Mock Server] API Base: http://127.0.0.1:${PORT}/api`);
-    console.log(`[BayoraShield Mock Server] Demo accounts: admin, operator, viewer (password: <role>123)`);
+    console.log(`[Bayora Shield Server] listening on http://0.0.0.0:${PORT}`);
+    console.log(`[Bayora Shield Server] Unified Web & API: http://127.0.0.1:${PORT}`);
+    console.log(`[Bayora Shield Server] Demo accounts: admin, operator, viewer (password: <role>123)`);
   });
 }

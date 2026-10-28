@@ -1,0 +1,29 @@
+{
+  "name": "bayora-shield",
+  "version": "1.0.0",
+  "description": "Bayora Shield — Secure Isolation Layer for Adversarial AI Safety Testing",
+  "private": true,
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node dev.js",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run mock --prefix frontend",
+    "build": "npm run build --prefix frontend",
+    "start": "node server.js",
+    "serve": "node server.js",
+    "test": "npm run test --prefix frontend",
+    "typecheck": "npm run typecheck --prefix frontend",
+    "lint": "npm run lint --prefix frontend",
+    "e2e": "npm run e2e --prefix frontend"
+  },
+  "keywords": [
+    "adversarial-ai",
+    "ai-safety",
+    "cybersecurity",
+    "zero-trust",
+    "bayora-shield"
+  ],
+  "author": "RAGflow",
+  "license": "MIT"
+}
