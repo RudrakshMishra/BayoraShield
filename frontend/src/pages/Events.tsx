@@ -108,11 +108,11 @@ export const EventsPage: React.FC = () => {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-heading text-2xl font-bold text-text flex items-center gap-2.5">
+          <h1 className="gradient-headline font-heading text-2xl font-bold tracking-tight flex items-center gap-2.5">
             <Layers className="w-6 h-6 text-gold" />
             Live Event Feed
           </h1>
-          <p className="text-muted text-sm mt-1">
+          <p className="text-muted text-xs font-mono uppercase tracking-[0.16em] mt-1">
             Real-time metadata stream from container isolation boundaries
           </p>
         </div>
@@ -122,9 +122,9 @@ export const EventsPage: React.FC = () => {
           <div
             id="connection-status-badge"
             className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono border",
+              "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono border backdrop-blur-md shadow-sm",
               isConnected
-                ? "bg-green/10 text-green border-green/30"
+                ? "bg-green/10 text-green border-green/30 shadow-[0_0_12px_rgba(16,185,129,0.2)]"
                 : "bg-red/10 text-red border-red/30"
             )}
           >
@@ -141,10 +141,10 @@ export const EventsPage: React.FC = () => {
             id="event-feed-pause-btn"
             onClick={togglePause}
             className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors",
+              "flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium border backdrop-blur-md transition-all shadow-sm",
               isPaused
-                ? "bg-gold/20 text-gold border-gold/40 hover:bg-gold/30"
-                : "bg-surface-2 text-text border-white/10 hover:bg-surface-2/80"
+                ? "bg-gold/20 text-gold border-gold/40 hover:bg-gold/30 shadow-[0_0_12px_rgba(245,158,11,0.2)]"
+                : "bg-white/[0.05] text-text border-white/15 hover:bg-white/[0.1]"
             )}
           >
             {isPaused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
@@ -155,7 +155,7 @@ export const EventsPage: React.FC = () => {
             id="event-feed-clear-btn"
             onClick={clearEvents}
             title="Clear buffered events"
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-surface-2 hover:bg-red/20 hover:text-red hover:border-red/40 text-muted border border-white/10 transition-colors"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium bg-white/[0.05] hover:bg-red/20 hover:text-red hover:border-red/40 text-muted border border-white/15 backdrop-blur-md transition-all shadow-sm"
           >
             <Trash2 className="w-3.5 h-3.5" />
             <span>Clear</span>
@@ -166,7 +166,7 @@ export const EventsPage: React.FC = () => {
       {/* Non-negotiable Rule 1 Security Banner */}
       <div
         id="metadata-only-banner"
-        className="flex items-center gap-3 p-3.5 rounded-card bg-gold/10 border border-gold/30 text-gold"
+        className="flex items-center gap-3 p-4 rounded-2xl bg-gold/10 border border-gold/30 text-gold backdrop-blur-xl shadow-[0_4px_24px_rgba(245,158,11,0.15)]"
       >
         <Shield className="w-5 h-5 flex-shrink-0 text-gold" />
         <div className="text-xs sm:text-sm">
@@ -178,7 +178,7 @@ export const EventsPage: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-surface border border-white/10 rounded-card p-4 space-y-4">
+      <div className="bg-white/[0.02] backdrop-blur-2xl border border-white/15 rounded-3xl p-5 space-y-4 shadow-[0_20px_50px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.12)]">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-wrap items-center gap-3">
             {/* Filter by Actor */}
@@ -190,7 +190,7 @@ export const EventsPage: React.FC = () => {
                 id="filter-actor"
                 value={filters.actor}
                 onChange={(e) => setFilter("actor", e.target.value)}
-                className="bg-surface-2 border border-white/10 text-text rounded-lg px-2.5 py-1 text-xs font-mono focus:outline-none focus:border-gold"
+                className="bg-black/40 border border-white/15 text-text rounded-xl px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-pink-400/60 focus:ring-1 focus:ring-pink-400/40 transition-all"
               >
                 <option value="all">All Actors</option>
                 <option value="red">Red Cell</option>
@@ -211,7 +211,7 @@ export const EventsPage: React.FC = () => {
                 id="filter-outcome"
                 value={filters.outcome}
                 onChange={(e) => setFilter("outcome", e.target.value)}
-                className="bg-surface-2 border border-white/10 text-text rounded-lg px-2.5 py-1 text-xs font-mono focus:outline-none focus:border-gold"
+                className="bg-black/40 border border-white/15 text-text rounded-xl px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-pink-400/60 focus:ring-1 focus:ring-pink-400/40 transition-all"
               >
                 <option value="all">All Outcomes</option>
                 <option value="allowed">Allowed</option>
@@ -229,7 +229,7 @@ export const EventsPage: React.FC = () => {
                 id="filter-type"
                 value={filters.type}
                 onChange={(e) => setFilter("type", e.target.value)}
-                className="bg-surface-2 border border-white/10 text-text rounded-lg px-2.5 py-1 text-xs font-mono focus:outline-none focus:border-gold"
+                className="bg-black/40 border border-white/15 text-text rounded-xl px-3 py-1.5 text-xs font-mono focus:outline-none focus:border-pink-400/60 focus:ring-1 focus:ring-pink-400/40 transition-all"
               >
                 <option value="all">All Types</option>
                 <option value="request">request</option>
@@ -261,20 +261,20 @@ export const EventsPage: React.FC = () => {
           {/* Search Input & Buffer Counter */}
           <div className="flex items-center gap-3">
             <div className="relative">
-              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-muted" />
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
               <input
                 id="search-events-input"
                 type="text"
                 placeholder="Search boundary or id..."
                 value={filters.search}
                 onChange={(e) => setFilter("search", e.target.value)}
-                className="bg-surface-2 border border-white/10 text-text rounded-lg pl-8 pr-3 py-1 text-xs font-mono focus:outline-none focus:border-gold w-44"
+                className="bg-black/40 border border-white/15 text-text rounded-xl pl-9 pr-3 py-1.5 text-xs font-mono focus:outline-none focus:border-pink-400/60 focus:ring-1 focus:ring-pink-400/40 transition-all w-48"
               />
             </div>
 
             <div
               id="event-buffer-counter"
-              className="text-xs font-mono text-muted bg-surface-2 px-2.5 py-1 rounded-lg border border-white/10"
+              className="text-xs font-mono text-muted bg-white/[0.05] px-3 py-1.5 rounded-full border border-white/15 backdrop-blur-md"
             >
               <span className="text-text font-bold">{filteredEvents.length}</span> / {events.length} (max 2,000)
             </div>
@@ -282,10 +282,10 @@ export const EventsPage: React.FC = () => {
         </div>
 
         {/* Live Event Table */}
-        <div className="overflow-x-auto rounded-lg border border-white/10">
+        <div className="overflow-x-auto rounded-2xl border border-white/15 bg-black/25">
           <table id="event-feed-table" className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-surface-2 border-b border-white/10 text-muted font-mono uppercase text-[11px]">
+              <tr className="bg-white/[0.04] border-b border-white/10 text-muted font-mono uppercase text-[11px]">
                 <th className="py-2.5 px-4 font-semibold">Time (UTC)</th>
                 <th className="py-2.5 px-4 font-semibold">Event ID</th>
                 <th className="py-2.5 px-4 font-semibold">Type</th>

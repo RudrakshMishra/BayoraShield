@@ -177,26 +177,26 @@ export const TopologyPage: React.FC = () => {
       {/* Top Title & Stack Selector */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="font-heading text-2xl font-bold text-text flex items-center gap-2.5">
+          <h1 className="gradient-headline font-heading text-2xl font-bold tracking-tight flex items-center gap-2.5">
             <Activity className="w-6 h-6 text-gold" />
             Live Topology
           </h1>
-          <p className="text-muted text-sm mt-1">
-            Real-time isolation boundary inspection and packet animation
+          <p className="text-muted text-xs font-mono uppercase tracking-[0.16em] mt-1">
+            Real-time isolation boundary inspection & packet flow
           </p>
         </div>
 
         {/* Stack Toggle Button Group */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center bg-surface-2 p-1 rounded-xl border border-white/10">
+          <div className="flex items-center bg-white/[0.04] backdrop-blur-xl p-1 rounded-full border border-white/15 shadow-sm">
             <button
               id="stack-toggle-shield"
               onClick={() => setStack("shield")}
               className={cn(
-                "px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all",
+                "px-4 py-1.5 rounded-full text-xs font-mono font-semibold transition-all",
                 stack === "shield"
-                  ? "bg-gold text-bg shadow-md"
-                  : "text-muted hover:text-text"
+                  ? "bg-gold text-bg shadow-[0_0_12px_rgba(245,158,11,0.3)]"
+                  : "text-muted hover:text-white"
               )}
             >
               SHIELD STACK
@@ -205,10 +205,10 @@ export const TopologyPage: React.FC = () => {
               id="stack-toggle-baseline"
               onClick={() => setStack("baseline")}
               className={cn(
-                "px-3.5 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all",
+                "px-4 py-1.5 rounded-full text-xs font-mono font-semibold transition-all",
                 stack === "baseline"
-                  ? "bg-red text-white shadow-md"
-                  : "text-muted hover:text-text"
+                  ? "bg-red text-white shadow-[0_0_12px_rgba(244,63,94,0.3)]"
+                  : "text-muted hover:text-white"
               )}
             >
               BASELINE STACK
@@ -218,9 +218,9 @@ export const TopologyPage: React.FC = () => {
           <div
             id="topology-live-badge"
             className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono border",
+              "flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono border backdrop-blur-md shadow-sm",
               isConnected
-                ? "bg-green/10 text-green border-green/30"
+                ? "bg-green/10 text-green border-green/30 shadow-[0_0_10px_rgba(16,185,129,0.15)]"
                 : "bg-red/10 text-red border-red/30"
             )}
           >
@@ -236,7 +236,8 @@ export const TopologyPage: React.FC = () => {
       </div>
 
       {/* Main Interactive Canvas */}
-      <div className="relative bg-surface border border-white/10 rounded-card p-4 sm:p-8 overflow-hidden min-h-[580px] flex items-center justify-center">
+      <div className="relative bg-white/[0.02] backdrop-blur-2xl border border-white/15 rounded-3xl p-4 sm:p-8 overflow-hidden min-h-[580px] flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.12)]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(56,189,248,0.06)_0%,transparent_65%)] pointer-events-none" />
         {/* SVG Network Connections Layer */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none"
@@ -396,10 +397,10 @@ export const TopologyPage: React.FC = () => {
             id="node-model"
             onClick={() => setSelectedNode("model")}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-3.5 rounded-card border cursor-pointer transition-all duration-200 select-none shadow-lg",
+              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-200 select-none shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]",
               selectedNode === "model"
-                ? "ring-2 ring-gold scale-105"
-                : "hover:scale-102 hover:border-white/30"
+                ? "ring-2 ring-gold scale-105 shadow-[0_0_24px_rgba(245,158,11,0.3)]"
+                : "hover:scale-102 hover:border-white/40"
             )}
             style={{
               left: `${NODES.model.position.x}%`,
@@ -409,7 +410,7 @@ export const TopologyPage: React.FC = () => {
             }}
           >
             <div className="flex items-center gap-2 mb-1.5">
-              <div className="p-1.5 rounded-md bg-grey/30 text-text">
+              <div className="p-1.5 rounded-lg bg-grey/30 text-text">
                 <Cpu className="w-4 h-4" />
               </div>
               <div className="min-w-0">
@@ -430,10 +431,10 @@ export const TopologyPage: React.FC = () => {
             id="node-red"
             onClick={() => setSelectedNode("red")}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-3.5 rounded-card border cursor-pointer transition-all duration-200 select-none shadow-lg",
+              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-200 select-none shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]",
               selectedNode === "red"
-                ? "ring-2 ring-red scale-105"
-                : "hover:scale-102 hover:border-white/30"
+                ? "ring-2 ring-red scale-105 shadow-[0_0_24px_rgba(244,63,94,0.3)]"
+                : "hover:scale-102 hover:border-white/40"
             )}
             style={{
               left: `${NODES.red.position.x}%`,
@@ -443,7 +444,7 @@ export const TopologyPage: React.FC = () => {
             }}
           >
             <div className="flex items-center gap-2 mb-1.5">
-              <div className="p-1.5 rounded-md bg-red/30 text-red">
+              <div className="p-1.5 rounded-lg bg-red/30 text-red">
                 <ShieldAlert className="w-4 h-4" />
               </div>
               <div className="min-w-0">
@@ -455,7 +456,7 @@ export const TopologyPage: React.FC = () => {
             </div>
             <div className="grid grid-cols-2 gap-1 text-[10px] font-mono pt-2 border-t border-white/10">
               <div className="flex items-center justify-between">
-                <span className="text-muted">Reqs:</span>
+                <span className="text-muted">Total:</span>
                 <span className="font-bold text-text">{nodeStats.red.requests}</span>
               </div>
               <div className="flex items-center justify-between">
@@ -470,10 +471,10 @@ export const TopologyPage: React.FC = () => {
             id="node-broker"
             onClick={() => setSelectedNode("broker")}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 w-60 p-4 rounded-card border cursor-pointer transition-all duration-200 select-none shadow-xl",
+              "absolute -translate-x-1/2 -translate-y-1/2 w-60 p-4.5 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-200 select-none shadow-[0_12px_40px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.2)]",
               selectedNode === "broker"
-                ? "ring-2 ring-gold scale-105"
-                : "hover:scale-102 hover:border-white/40"
+                ? "ring-2 ring-gold scale-105 shadow-[0_0_30px_rgba(245,158,11,0.4)]"
+                : "hover:scale-102 hover:border-white/50"
             )}
             style={{
               left: `${NODES.broker.position.x}%`,
@@ -520,10 +521,10 @@ export const TopologyPage: React.FC = () => {
             id="node-blue"
             onClick={() => setSelectedNode("blue")}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-3.5 rounded-card border cursor-pointer transition-all duration-200 select-none shadow-lg",
+              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-200 select-none shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]",
               selectedNode === "blue"
-                ? "ring-2 ring-blue scale-105"
-                : "hover:scale-102 hover:border-white/30"
+                ? "ring-2 ring-blue scale-105 shadow-[0_0_24px_rgba(56,189,248,0.3)]"
+                : "hover:scale-102 hover:border-white/40"
             )}
             style={{
               left: `${NODES.blue.position.x}%`,
@@ -533,7 +534,7 @@ export const TopologyPage: React.FC = () => {
             }}
           >
             <div className="flex items-center gap-2 mb-1.5">
-              <div className="p-1.5 rounded-md bg-blue/30 text-blue">
+              <div className="p-1.5 rounded-lg bg-blue/30 text-blue">
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div className="min-w-0">
@@ -560,10 +561,10 @@ export const TopologyPage: React.FC = () => {
             id="node-ledger"
             onClick={() => setSelectedNode("ledger")}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-3.5 rounded-card border cursor-pointer transition-all duration-200 select-none shadow-lg",
+              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-200 select-none shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]",
               selectedNode === "ledger"
-                ? "ring-2 ring-gold scale-105"
-                : "hover:scale-102 hover:border-white/30"
+                ? "ring-2 ring-gold scale-105 shadow-[0_0_24px_rgba(245,158,11,0.3)]"
+                : "hover:scale-102 hover:border-white/40"
             )}
             style={{
               left: `${NODES.ledger.position.x}%`,
@@ -573,7 +574,7 @@ export const TopologyPage: React.FC = () => {
             }}
           >
             <div className="flex items-center gap-2 mb-1.5">
-              <div className="p-1.5 rounded-md bg-gold/30 text-gold">
+              <div className="p-1.5 rounded-lg bg-gold/30 text-gold">
                 <Database className="w-4 h-4" />
               </div>
               <div className="min-w-0">
@@ -591,8 +592,8 @@ export const TopologyPage: React.FC = () => {
         </div>
 
         {/* Legend Panel */}
-        <div className="absolute bottom-3 left-3 bg-surface-2/90 backdrop-blur border border-white/10 rounded-lg p-2.5 text-[11px] font-mono text-muted space-y-1 shadow-md">
-          <div className="text-[10px] uppercase font-bold text-text mb-1">Legend</div>
+        <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-2xl border border-white/15 rounded-2xl p-3 text-[11px] font-mono text-muted space-y-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]">
+          <div className="text-[10px] uppercase font-bold text-text mb-1 tracking-wider">Legend</div>
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-0.5 bg-gold" />
             <span>Mediation Link</span>
@@ -620,7 +621,7 @@ export const TopologyPage: React.FC = () => {
       {selectedNode && (
         <div
           id="node-inspector-panel"
-          className="fixed inset-y-0 right-0 w-96 bg-surface border-l border-white/10 shadow-2xl p-6 z-50 flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right duration-200"
+          className="fixed inset-y-0 right-0 w-96 bg-black/85 backdrop-blur-2xl border-l border-white/15 shadow-[0_0_50px_rgba(0,0,0,0.8)] p-6 z-50 flex flex-col justify-between overflow-y-auto animate-in slide-in-from-right duration-200"
         >
           <div className="space-y-6">
             {/* Header */}
@@ -657,7 +658,7 @@ export const TopologyPage: React.FC = () => {
                 <Lock className="w-3.5 h-3.5 text-gold" />
                 Container Isolation Facts
               </h3>
-              <div className="bg-surface-2 rounded-card p-3 space-y-2 text-xs font-mono">
+              <div className="bg-white/[0.04] border border-white/10 rounded-2xl p-3.5 space-y-2.5 text-xs font-mono">
                 <div>
                   <span className="text-muted block text-[10px]">NETWORK ISOLATION:</span>
                   <span className="text-text font-medium">
@@ -691,21 +692,21 @@ export const TopologyPage: React.FC = () => {
                 Activity Counters
               </h3>
               <div className="grid grid-cols-3 gap-2 text-center font-mono">
-                <div className="bg-surface-2 p-2.5 rounded-lg border border-white/5">
+                <div className="bg-white/[0.04] p-3 rounded-xl border border-white/10">
                   <div className="text-[10px] text-muted">TOTAL</div>
-                  <div className="text-sm font-bold text-text">
+                  <div className="text-base font-bold text-text">
                     {nodeStats[selectedNode].requests}
                   </div>
                 </div>
-                <div className="bg-surface-2 p-2.5 rounded-lg border border-white/5">
+                <div className="bg-white/[0.04] p-3 rounded-xl border border-white/10">
                   <div className="text-[10px] text-green">ALLOWED</div>
-                  <div className="text-sm font-bold text-green">
+                  <div className="text-base font-bold text-green">
                     {nodeStats[selectedNode].allowed}
                   </div>
                 </div>
-                <div className="bg-surface-2 p-2.5 rounded-lg border border-white/5">
+                <div className="bg-white/[0.04] p-3 rounded-xl border border-white/10">
                   <div className="text-[10px] text-red">BLOCKED</div>
-                  <div className="text-sm font-bold text-red">
+                  <div className="text-base font-bold text-red">
                     {nodeStats[selectedNode].blocked}
                   </div>
                 </div>
@@ -717,16 +718,16 @@ export const TopologyPage: React.FC = () => {
               <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-muted">
                 Recent Metadata Events ({inspectorEvents.length})
               </h3>
-              <div className="space-y-1.5 max-h-56 overflow-y-auto font-mono text-[11px]">
+              <div className="space-y-2 max-h-56 overflow-y-auto font-mono text-[11px]">
                 {inspectorEvents.length === 0 ? (
-                  <div className="text-muted text-xs p-3 text-center bg-surface-2 rounded-lg">
+                  <div className="text-muted text-xs p-4 text-center bg-white/[0.03] border border-white/10 rounded-xl">
                     No recent events for this container.
                   </div>
                 ) : (
                   inspectorEvents.map((evt) => (
                     <div
                       key={evt.id}
-                      className="p-2 rounded bg-surface-2 border border-white/5 flex items-center justify-between"
+                      className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-between"
                     >
                       <div>
                         <div className="font-semibold text-text">{evt.boundary}</div>

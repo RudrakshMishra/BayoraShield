@@ -12,7 +12,6 @@ import {
   Lock,
   LogIn,
   LogOut,
-  Cpu,
   Terminal,
   UserCheck,
   Sparkles,
@@ -66,25 +65,29 @@ export const Layout: React.FC = () => {
   const userLevel = user ? roleLevels[user.role] || 0 : 0;
 
   return (
-    <div className="min-h-screen flex bg-bg text-text">
+    <div className="min-h-screen flex bg-bg text-text relative overflow-hidden">
+      {/* Ambient background glows */}
+      <div className="pointer-events-none fixed -bottom-20 -left-20 h-[45vw] w-[45vw] rounded-full bg-[radial-gradient(circle,rgba(244,63,94,0.12)_0%,transparent_70%)] blur-[100px] z-0" aria-hidden="true" />
+      <div className="pointer-events-none fixed -top-20 -right-20 h-[45vw] w-[45vw] rounded-full bg-[radial-gradient(circle,rgba(192,132,252,0.14)_0%,rgba(56,189,248,0.12)_40%,transparent_70%)] blur-[100px] z-0" aria-hidden="true" />
+
       {/* Left Sidebar */}
       {!isLoginPage && (
         <aside
           id="app-sidebar"
-          className="w-64 flex-shrink-0 border-r border-white/[0.08] bg-surface/80 backdrop-blur flex flex-col justify-between p-4"
+          className="relative z-10 w-64 flex-shrink-0 border-r border-white/10 bg-black/40 backdrop-blur-2xl flex flex-col justify-between p-4 shadow-[4px_0_24px_rgba(0,0,0,0.5)]"
         >
           <div className="space-y-6">
             {/* Branding Header */}
             <div className="flex items-center space-x-3 px-2 py-1">
-              <div className="w-9 h-9 rounded-lg bg-gold/20 border border-gold/40 flex items-center justify-center text-gold">
-                <Cpu className="w-5 h-5 text-gold" />
-              </div>
+              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-pink to-blue bg-clip-text text-transparent">
+                //
+              </span>
               <div>
-                <div className="font-heading font-bold text-base tracking-wide text-text flex items-center gap-1.5">
+                <div className="font-heading font-bold text-base tracking-wide bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent flex items-center gap-1.5">
                   BayoraShield
                 </div>
                 <div className="text-[10px] uppercase font-mono tracking-wider text-muted">
-                  Track 04 • Isolation
+                  Adversarial AI Safety • Track 04
                 </div>
               </div>
             </div>
@@ -107,10 +110,10 @@ export const Layout: React.FC = () => {
                     id={`nav-${item.name.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}
                     className={({ isActive }) =>
                       cn(
-                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors border",
+                        "flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all border",
                         isActive
-                          ? "bg-surface-2 text-text border-white/10 shadow-sm"
-                          : "text-muted hover:text-text hover:bg-surface-2/50 border-transparent"
+                          ? "bg-white/[0.08] text-white border-white/20 shadow-[0_2px_12px_rgba(255,255,255,0.08)] font-semibold"
+                          : "text-muted hover:text-white hover:bg-white/[0.04] border-transparent"
                       )
                     }
                   >
@@ -126,8 +129,8 @@ export const Layout: React.FC = () => {
           <div className="border-t border-white/[0.08] pt-4 px-2 space-y-2">
             <div className="text-[11px] font-mono text-muted flex items-center justify-between">
               <span>SANDBOX STATUS</span>
-              <span className="text-green flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse" />
+              <span className="text-green flex items-center gap-1 font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-green animate-pulse shadow-[0_0_8px_var(--green)]" />
                 SECURE
               </span>
             </div>
@@ -143,7 +146,7 @@ export const Layout: React.FC = () => {
         {/* Top Header Bar */}
         <header
           id="app-topbar"
-          className="h-14 border-b border-white/[0.08] bg-surface/50 backdrop-blur px-6 flex items-center justify-between flex-shrink-0"
+          className="h-14 border-b border-white/[0.08] bg-black/40 backdrop-blur-2xl px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
         >
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -163,10 +166,10 @@ export const Layout: React.FC = () => {
             <NavLink
               to="/vaultra"
               id="vaultra-hero-topbar-link"
-              className="flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[11px] font-mono font-bold tracking-wider uppercase border bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-blue-500/10 hover:from-pink-500/20 hover:to-blue-500/20 text-pink-300 border-pink-500/30 transition-all shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider uppercase border bg-gradient-to-r from-pink-500/15 via-purple-500/15 to-blue-500/15 hover:from-pink-500/25 hover:to-blue-500/25 text-pink-200 border-pink-400/40 backdrop-blur-md transition-all shadow-[0_0_16px_rgba(244,114,182,0.2)]"
               title="Explore Vaultra Crypto Finance Hero"
             >
-              <Sparkles className="w-3 h-3 text-pink-400 animate-pulse" />
+              <Sparkles className="w-3 h-3 text-pink-300 animate-pulse" />
               <span>Vaultra</span>
             </NavLink>
 
@@ -174,10 +177,10 @@ export const Layout: React.FC = () => {
             <div
               id="mode-badge"
               className={cn(
-                "px-2.5 py-0.5 rounded text-[11px] font-mono font-bold tracking-wider uppercase border",
+                "px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase border backdrop-blur-md",
                 apiMode === "mock"
-                  ? "bg-gold/10 text-gold border-gold/30"
-                  : "bg-green/10 text-green border-green/30"
+                  ? "bg-gold/10 text-gold border-gold/30 shadow-[0_0_12px_rgba(245,158,11,0.15)]"
+                  : "bg-green/10 text-green border-green/30 shadow-[0_0_12px_rgba(16,185,129,0.15)]"
               )}
             >
               {apiMode.toUpperCase()} MODE
@@ -187,7 +190,7 @@ export const Layout: React.FC = () => {
             {isLoginPage ? (
               <NavLink
                 to="/"
-                className="text-xs text-muted hover:text-text font-medium flex items-center gap-1"
+                className="text-xs text-muted hover:text-white font-medium flex items-center gap-1 transition-colors"
               >
                 Back to Dashboard
               </NavLink>
@@ -195,18 +198,18 @@ export const Layout: React.FC = () => {
               <div className="flex items-center gap-2.5">
                 <div
                   id="user-profile-badge"
-                  className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-surface-2 border border-white/10 text-xs font-mono"
+                  className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] backdrop-blur-md border border-white/10 text-xs font-mono shadow-sm"
                 >
                   <UserCheck className="w-3.5 h-3.5 text-blue" />
                   <span className="text-text font-semibold">{user.username}</span>
                   <span
                     id="user-role-badge"
                     className={cn(
-                      "px-1.5 py-0.2 rounded text-[10px] font-bold uppercase",
+                      "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase",
                       user.role === "admin"
-                        ? "bg-gold/20 text-gold border border-gold/40"
+                        ? "bg-gold/20 text-gold border border-gold/40 shadow-[0_0_8px_rgba(245,158,11,0.2)]"
                         : user.role === "operator"
-                        ? "bg-blue/20 text-blue border border-blue/40"
+                        ? "bg-blue/20 text-blue border border-blue/40 shadow-[0_0_8px_rgba(56,189,248,0.2)]"
                         : "bg-muted/20 text-muted border border-muted/40"
                     )}
                   >
@@ -218,7 +221,7 @@ export const Layout: React.FC = () => {
                   id="logout-button"
                   onClick={handleLogout}
                   title="Sign out and close SSE streams"
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-2 hover:bg-red/20 hover:text-red hover:border-red/40 text-xs font-medium text-muted border border-white/10 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] hover:bg-red/20 hover:text-red hover:border-red/40 text-xs font-medium text-muted border border-white/10 backdrop-blur-md transition-all"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   <span>Sign Out</span>
@@ -228,7 +231,7 @@ export const Layout: React.FC = () => {
               <NavLink
                 to="/login"
                 id="login-nav-link"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-2 hover:bg-surface-2/80 text-xs font-medium text-text border border-white/10 transition-colors"
+                className="flex items-center gap-1.5 px-4 py-1 rounded-full bg-white/[0.08] hover:bg-white/[0.15] text-xs font-medium text-text border border-white/15 backdrop-blur-md transition-all shadow-sm"
               >
                 <LogIn className="w-3.5 h-3.5 text-muted" />
                 <span>Sign In</span>

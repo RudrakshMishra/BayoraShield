@@ -16,6 +16,8 @@ const config: Config = {
         gold: "var(--gold)",
         green: "var(--green)",
         teal: "var(--teal)",
+        pink: "var(--accent-pink)",
+        lilac: "var(--accent-lilac)",
       },
       fontFamily: {
         heading: ["Montserrat", "sans-serif"],
