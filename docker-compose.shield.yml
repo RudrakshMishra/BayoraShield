@@ -1,0 +1,75 @@
+name: bayorashield-shield
+
+services:
+  broker:
+    image: python:3.12-slim
+    command: ["python", "-c", "import http.server; http.server.HTTPServer(('0.0.0.0',8001),http.server.SimpleHTTPRequestHandler).serve_forever()"]
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 128
+    mem_limit: 512m
+    cpus: 1.0
+    networks: [net_red, net_model, net_ledger, net_ctrl]
+
+  blue:
+    image: python:3.12-slim
+    command: ["python", "-c", "print('sealed evaluator stub')"]
+    user: "10001:10001"
+    network_mode: none
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 256m
+    cpus: 0.5
+    tmpfs: [/tmp]
+    volumes:
+      - blue-broker-socket:/run/bayora
+
+  model:
+    image: python:3.12-slim
+    command: ["python", "-c", "print('deterministic model stub')"]
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 128
+    mem_limit: 1g
+    cpus: 1.0
+    networks: [net_model]
+
+  ledger:
+    image: python:3.12-slim
+    command: ["python", "-c", "print('ledger read listener stub')"]
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 128
+    mem_limit: 512m
+    cpus: 0.5
+    networks: [net_ledger, net_ctrl]
+
+  dashboard-api:
+    image: python:3.12-slim
+    command: ["python", "-c", "print('dashboard API stub')"]
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 128
+    mem_limit: 512m
+    cpus: 0.5
+    networks: [net_front, net_ctrl]
+
+networks:
+  net_red: {internal: true}
+  net_model: {internal: true}
+  net_ledger: {internal: true}
+  net_ctrl: {internal: true}
+  net_front: {internal: true}
+
+volumes:
+  blue-broker-socket:

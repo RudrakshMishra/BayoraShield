@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+"""Static compose invariant audit for the shield stack.
+
+Live container inspection belongs on the Linux validation VM. This audit is a
+safe preflight that catches missing hardening declarations before deployment.
+"""
+from __future__ import annotations
+
+import argparse
+from pathlib import Path
+import sys
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--compose", required=True, type=Path)
+    args = parser.parse_args()
+    text = args.compose.read_text(encoding="utf-8")
+    checks = {
+        "capabilities dropped": "cap_drop" in text,
+        "read-only roots": "read_only: true" in text,
+        "no-new-privileges": "no-new-privileges:true" in text or "no-new-privileges=true" in text,
+        "internal networks": "internal: true" in text,
+        "evaluator has no network": "network_mode: none" in text,
+        "resource limits": "pids_limit" in text and "mem_limit" in text and "cpus" in text,
+        "no docker socket": "/var/run/docker.sock" not in text,
+    }
+    failed = [name for name, passed in checks.items() if not passed]
+    for name, passed in checks.items():
+        print(f"{'PASS' if passed else 'FAIL'} {name}")
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

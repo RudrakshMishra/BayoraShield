@@ -49,7 +49,10 @@ export async function apiFetch<T>(
     }
   }
 
-  const url = endpoint.startsWith("http") ? endpoint : `/api${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+  const apiBase = (import.meta.env.VITE_API_BASE || "/api").replace(/\/$/, "");
+  const url = endpoint.startsWith("http")
+    ? endpoint
+    : `${apiBase}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
 
   let response: Response;
   try {
@@ -116,14 +119,11 @@ export async function apiFetch<T>(
   if (schema) {
     const validation = schema.safeParse(data);
     if (!validation.success) {
-      if (process.env.NODE_ENV !== "production") {
-        console.error("Zod schema validation failed for", url, validation.error);
-      }
+      console.error("Zod schema validation failed for", url);
       throw new ApiRequestError(
         500,
         "SCHEMA_VALIDATION_ERROR",
-        "Received invalid data shape from backend.",
-        validation.error
+        "Received invalid data shape from backend."
       );
     }
     return validation.data as T;

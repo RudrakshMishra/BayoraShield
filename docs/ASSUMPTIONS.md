@@ -34,3 +34,9 @@
 5. **SSE Events Stream**:
    - Both `shield` and `baseline` stacks stream continuous events at 2-5/sec.
    - Hostile-red bursts trigger 10-15 rapid `breach_attempt` events (blocked on shield, allowed on baseline).
+
+6. **Submission decisions (2026-10-28)**:
+   - The submission window is today, so the first delivery prioritizes a mock-complete dashboard and deterministic proof fixtures.
+   - Live security validation will run on a Linux VM; Windows checks do not constitute container isolation proof.
+   - The first live model and classifier implementation uses deterministic stubs; real model licensing remains a later decision.
+   - The public repository uses the MIT license.
