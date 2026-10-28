@@ -39,7 +39,7 @@ const NODES: Record<ActorT, NodeConfig> = {
     color: "#9AA7B8",
     borderColor: "rgba(154, 167, 184, 0.4)",
     bgColor: "rgba(107, 122, 140, 0.15)",
-    position: { x: 50, y: 15 },
+    position: { x: 50, y: 13 },
     isolationSpecs: {
       network: "No external ingress/egress; broker socket only",
       mounts: "ro rootfs; tmpfs /tmp (noexec, nosuid)",
@@ -55,7 +55,7 @@ const NODES: Record<ActorT, NodeConfig> = {
     color: "#E5484D",
     borderColor: "rgba(229, 72, 77, 0.5)",
     bgColor: "rgba(229, 72, 77, 0.15)",
-    position: { x: 16, y: 50 },
+    position: { x: 13, y: 50 },
     isolationSpecs: {
       network: "Isolated bridge; internet blocked; broker proxy only",
       mounts: "ro rootfs; no persistent host volume",
@@ -87,7 +87,7 @@ const NODES: Record<ActorT, NodeConfig> = {
     color: "#2F6FED",
     borderColor: "rgba(47, 111, 237, 0.5)",
     bgColor: "rgba(47, 111, 237, 0.15)",
-    position: { x: 84, y: 50 },
+    position: { x: 87, y: 50 },
     isolationSpecs: {
       network: "Isolated; sealed evaluator socket to broker only",
       mounts: "ro rootfs; model weights unreadable",
@@ -103,7 +103,7 @@ const NODES: Record<ActorT, NodeConfig> = {
     color: "#E8A33D",
     borderColor: "rgba(232, 163, 61, 0.4)",
     bgColor: "rgba(232, 163, 61, 0.12)",
-    position: { x: 50, y: 85 },
+    position: { x: 50, y: 87 },
     isolationSpecs: {
       network: "Write-only ingress from broker; no egress",
       mounts: "append-only audit storage volume",
@@ -236,114 +236,159 @@ export const TopologyPage: React.FC = () => {
       </div>
 
       {/* Main Interactive Canvas */}
-      <div className="relative bg-white/[0.02] backdrop-blur-2xl border border-white/15 rounded-3xl p-4 sm:p-8 overflow-hidden min-h-[580px] flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.12)]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(56,189,248,0.06)_0%,transparent_65%)] pointer-events-none" />
-        {/* SVG Network Connections Layer */}
+      <div className="relative bg-white/[0.02] backdrop-blur-2xl border border-white/15 rounded-3xl p-6 sm:p-10 overflow-hidden min-h-[760px] flex items-center justify-center shadow-[0_24px_60px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.12)]">
+        {/* Subtle radial ambient glows */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(56,189,248,0.07)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_13%_50%,rgba(244,63,94,0.06)_0%,transparent_50%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_87%_50%,rgba(56,189,248,0.06)_0%,transparent_50%)] pointer-events-none" />
+
+        {/* SVG Network Connections & Radar Layer */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none"
-          viewBox="0 0 1000 600"
+          viewBox="0 0 1100 700"
           preserveAspectRatio="none"
         >
           <defs>
-            <linearGradient id="linkGradBrokerRed" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#E5484D" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#E8A33D" stopOpacity="0.6" />
+            <filter id="topoGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+
+            <linearGradient id="linkGradBrokerRed" x1="100%" y1="0%" x2="0%" y2="0%">
+              <stop offset="0%" stopColor="#E8A33D" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#E5484D" stopOpacity="0.7" />
             </linearGradient>
             <linearGradient id="linkGradBrokerBlue" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#E8A33D" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#2F6FED" stopOpacity="0.4" />
+              <stop offset="0%" stopColor="#E8A33D" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#2F6FED" stopOpacity="0.7" />
             </linearGradient>
             <linearGradient id="linkGradBrokerModel" x1="0%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" stopColor="#E8A33D" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#9AA7B8" stopOpacity="0.4" />
+              <stop offset="0%" stopColor="#E8A33D" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#9AA7B8" stopOpacity="0.6" />
             </linearGradient>
             <linearGradient id="linkGradBrokerLedger" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#E8A33D" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#E8A33D" stopOpacity="0.3" />
+              <stop offset="0%" stopColor="#E8A33D" stopOpacity="0.8" />
+              <stop offset="100%" stopColor="#E8A33D" stopOpacity="0.4" />
             </linearGradient>
           </defs>
 
+          {/* Radar Perimeter Grid Rings around Broker (550, 350) */}
+          <circle cx="550" cy="350" r="390" fill="none" stroke="rgba(192, 132, 252, 0.07)" strokeWidth="1" strokeDasharray="6 12" />
+          <circle cx="550" cy="350" r="260" fill="none" stroke="rgba(56, 189, 248, 0.08)" strokeWidth="1" strokeDasharray="4 8" />
+          <circle cx="550" cy="350" r="135" fill="none" stroke="rgba(232, 163, 61, 0.12)" strokeWidth="1" strokeDasharray="3 6" />
+
+          {/* Radar Crosshairs */}
+          <line x1="80" y1="350" x2="1020" y2="350" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+          <line x1="550" y1="50" x2="550" y2="650" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+
           {/* Broker to Red link (Solid) */}
           <line
-            x1="500"
-            y1="300"
-            x2="160"
-            y2="300"
+            x1="422"
+            y1="350"
+            x2="255"
+            y2="350"
             stroke="url(#linkGradBrokerRed)"
-            strokeWidth="3"
+            strokeWidth="3.5"
             strokeLinecap="round"
+            filter="url(#topoGlow)"
           />
 
           {/* Broker to Blue link (Solid) */}
           <line
-            x1="500"
-            y1="300"
-            x2="840"
-            y2="300"
+            x1="678"
+            y1="350"
+            x2="845"
+            y2="350"
             stroke="url(#linkGradBrokerBlue)"
-            strokeWidth="3"
+            strokeWidth="3.5"
             strokeLinecap="round"
+            filter="url(#topoGlow)"
           />
 
           {/* Broker to Model link (Solid) */}
           <line
-            x1="500"
-            y1="300"
-            x2="500"
-            y2="90"
+            x1="550"
+            y1="286"
+            x2="550"
+            y2="147"
             stroke="url(#linkGradBrokerModel)"
-            strokeWidth="3"
+            strokeWidth="3.5"
             strokeLinecap="round"
+            filter="url(#topoGlow)"
           />
 
           {/* Broker to Ledger link (Dashed, write-only) */}
           <line
-            x1="500"
-            y1="300"
-            x2="500"
-            y2="510"
+            x1="550"
+            y1="414"
+            x2="550"
+            y2="553"
             stroke="url(#linkGradBrokerLedger)"
             strokeWidth="3"
             strokeDasharray="6 6"
             strokeLinecap="round"
           />
-          <text
-            x="510"
-            y="410"
-            fill="#E8A33D"
-            fontSize="10"
-            fontFamily="'JetBrains Mono', monospace"
-            opacity="0.8"
-          >
-            write-only
-          </text>
+          <g transform="translate(565, 480)">
+            <rect x="-4" y="-10" width="76" height="18" rx="4" fill="#0d1117" opacity="0.9" stroke="rgba(232, 163, 61, 0.4)" strokeWidth="0.8" />
+            <text
+              x="34"
+              y="3"
+              textAnchor="middle"
+              fill="#E8A33D"
+              fontSize="10"
+              fontFamily="'JetBrains Mono', monospace"
+              letterSpacing="0.08em"
+              fontWeight="600"
+            >
+              WRITE-ONLY
+            </text>
+          </g>
 
-          {/* Forbidden Red-to-Blue direct link (Crossed out dotted line) */}
+          {/* Forbidden Red-to-Blue direct link corridor */}
           <line
             id="forbidden-cell-link"
-            x1="220"
-            y1="250"
-            x2="780"
-            y2="250"
+            x1="180"
+            y1="215"
+            x2="920"
+            y2="215"
             stroke="#E5484D"
             strokeWidth="1.5"
-            strokeDasharray="4 4"
-            opacity="0.3"
+            strokeDasharray="5 5"
+            opacity="0.45"
           />
-          <circle cx="500" cy="250" r="12" fill="#12294A" stroke="#E5484D" strokeWidth="1.5" />
-          <line x1="492" y1="242" x2="508" y2="258" stroke="#E5484D" strokeWidth="2" />
-          <text
-            x="500"
-            y="232"
-            textAnchor="middle"
-            fill="#E5484D"
-            fontSize="10"
-            fontFamily="'JetBrains Mono', monospace"
-            opacity="0.9"
-            fontWeight="600"
-          >
-            No direct cell-to-cell links
-          </text>
+          {/* Barrier badge in the center */}
+          <g transform="translate(550, 215)">
+            <rect
+              x="-130"
+              y="-16"
+              width="260"
+              height="32"
+              rx="16"
+              fill="#14060a"
+              stroke="#E5484D"
+              strokeWidth="1.2"
+              filter="url(#topoGlow)"
+            />
+            {/* Cross symbol */}
+            <circle cx="-100" cy="0" r="8" fill="#2d0810" stroke="#E5484D" strokeWidth="1.2" />
+            <line x1="-104" y1="-4" x2="-96" y2="4" stroke="#E5484D" strokeWidth="1.8" strokeLinecap="round" />
+            <line x1="-96" y1="-4" x2="-104" y2="4" stroke="#E5484D" strokeWidth="1.8" strokeLinecap="round" />
+            <text
+              x="8"
+              y="4"
+              textAnchor="middle"
+              fill="#E5484D"
+              fontSize="11"
+              fontFamily="'JetBrains Mono', monospace"
+              fontWeight="600"
+              letterSpacing="0.04em"
+            >
+              No direct cell-to-cell links
+            </text>
+          </g>
         </svg>
 
         {/* Animated Packets Layer */}
@@ -374,7 +419,7 @@ export const TopologyPage: React.FC = () => {
                   <div
                     data-testid="blocked-boundary-lock"
                     id="blocked-boundary-lock"
-                    className="flex items-center gap-1 px-2 py-1 rounded-md bg-red/90 text-white font-mono text-[10px] font-bold shadow-lg shadow-red/50 border border-white/30"
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-red/90 text-white font-mono text-[10px] font-bold shadow-lg shadow-red/50 border border-white/30 backdrop-blur-md"
                   >
                     <Lock className="w-3.5 h-3.5 text-white" />
                     <span>BLOCKED AT BOUNDARY</span>
@@ -391,15 +436,15 @@ export const TopologyPage: React.FC = () => {
         </div>
 
         {/* Interactive Node Cards */}
-        <div className="relative w-full h-[520px] max-w-4xl mx-auto">
+        <div className="relative w-full h-[660px] max-w-6xl mx-auto">
           {/* 1. Model Cell (Top) */}
           <div
             id="node-model"
             onClick={() => setSelectedNode("model")}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-200 select-none shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]",
+              "absolute -translate-x-1/2 -translate-y-1/2 w-56 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-300 select-none shadow-[0_10px_35px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.15)] group",
               selectedNode === "model"
-                ? "ring-2 ring-gold scale-105 shadow-[0_0_24px_rgba(245,158,11,0.3)]"
+                ? "ring-2 ring-gold scale-105 shadow-[0_0_28px_rgba(245,158,11,0.35)]"
                 : "hover:scale-102 hover:border-white/40"
             )}
             style={{
@@ -409,19 +454,25 @@ export const TopologyPage: React.FC = () => {
               borderColor: NODES.model.borderColor,
             }}
           >
-            <div className="flex items-center gap-2 mb-1.5">
-              <div className="p-1.5 rounded-lg bg-grey/30 text-text">
-                <Cpu className="w-4 h-4" />
+            <div className="pointer-events-none absolute -inset-1 rounded-2xl bg-white/[0.03] blur-lg" />
+            <div className="relative flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-grey/30 text-text">
+                  <Cpu className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-heading text-xs font-bold text-text truncate">
+                    {NODES.model.label}
+                  </h3>
+                  <p className="text-[10px] text-muted truncate">{NODES.model.sublabel}</p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <h3 className="font-heading text-xs font-bold text-text truncate">
-                  {NODES.model.label}
-                </h3>
-                <p className="text-[10px] text-muted truncate">{NODES.model.sublabel}</p>
-              </div>
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-white/10 text-muted border border-white/15">
+                TARGET
+              </span>
             </div>
-            <div className="flex items-center justify-between text-[10px] font-mono pt-2 border-t border-white/10">
-              <span className="text-muted">Requests:</span>
+            <div className="relative flex items-center justify-between text-[10px] font-mono pt-2 border-t border-white/10">
+              <span className="text-muted">Inferences:</span>
               <span className="font-bold text-text">{nodeStats.model.requests}</span>
             </div>
           </div>
@@ -431,9 +482,9 @@ export const TopologyPage: React.FC = () => {
             id="node-red"
             onClick={() => setSelectedNode("red")}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-200 select-none shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]",
+              "absolute -translate-x-1/2 -translate-y-1/2 w-56 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-300 select-none shadow-[0_10px_35px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.15)] group",
               selectedNode === "red"
-                ? "ring-2 ring-red scale-105 shadow-[0_0_24px_rgba(244,63,94,0.3)]"
+                ? "ring-2 ring-red scale-105 shadow-[0_0_28px_rgba(244,63,94,0.35)]"
                 : "hover:scale-102 hover:border-white/40"
             )}
             style={{
@@ -443,18 +494,24 @@ export const TopologyPage: React.FC = () => {
               borderColor: NODES.red.borderColor,
             }}
           >
-            <div className="flex items-center gap-2 mb-1.5">
-              <div className="p-1.5 rounded-lg bg-red/30 text-red">
-                <ShieldAlert className="w-4 h-4" />
+            <div className="pointer-events-none absolute -inset-1 rounded-2xl bg-red/10 blur-lg" />
+            <div className="relative flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-red/30 text-red">
+                  <ShieldAlert className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-heading text-xs font-bold text-red truncate">
+                    {NODES.red.label}
+                  </h3>
+                  <p className="text-[10px] text-muted truncate">{NODES.red.sublabel}</p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <h3 className="font-heading text-xs font-bold text-red truncate">
-                  {NODES.red.label}
-                </h3>
-                <p className="text-[10px] text-muted truncate">{NODES.red.sublabel}</p>
-              </div>
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-red/20 text-red border border-red/40">
+                ATTACKER
+              </span>
             </div>
-            <div className="grid grid-cols-2 gap-1 text-[10px] font-mono pt-2 border-t border-white/10">
+            <div className="relative grid grid-cols-2 gap-1 text-[10px] font-mono pt-2 border-t border-white/10">
               <div className="flex items-center justify-between">
                 <span className="text-muted">Total:</span>
                 <span className="font-bold text-text">{nodeStats.red.requests}</span>
@@ -471,9 +528,9 @@ export const TopologyPage: React.FC = () => {
             id="node-broker"
             onClick={() => setSelectedNode("broker")}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 w-60 p-4.5 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-200 select-none shadow-[0_12px_40px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.2)]",
+              "absolute -translate-x-1/2 -translate-y-1/2 w-64 p-5 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-300 select-none shadow-[0_16px_50px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.2)] group",
               selectedNode === "broker"
-                ? "ring-2 ring-gold scale-105 shadow-[0_0_30px_rgba(245,158,11,0.4)]"
+                ? "ring-2 ring-gold scale-105 shadow-[0_0_36px_rgba(245,158,11,0.45)]"
                 : "hover:scale-102 hover:border-white/50"
             )}
             style={{
@@ -483,35 +540,36 @@ export const TopologyPage: React.FC = () => {
               borderColor: NODES.broker.borderColor,
             }}
           >
-            <div className="flex items-center gap-2.5 mb-2">
-              <div className="p-2 rounded-lg bg-gold/30 text-gold">
-                <Server className="w-5 h-5" />
-              </div>
-              <div className="min-w-0">
-                <div className="flex items-center gap-1.5">
+            <div className="pointer-events-none absolute -inset-2 rounded-3xl bg-gold/15 blur-xl" />
+            <div className="relative flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="p-2 rounded-lg bg-gold/30 text-gold shadow-[0_0_12px_rgba(245,158,11,0.2)]">
+                  <Server className="w-5 h-5" />
+                </div>
+                <div className="min-w-0">
                   <h3 className="font-heading text-sm font-bold text-gold truncate">
                     {NODES.broker.label}
                   </h3>
-                  <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-gold/20 text-gold border border-gold/40">
-                    HUB
-                  </span>
+                  <p className="text-[10px] text-muted truncate">{NODES.broker.sublabel}</p>
                 </div>
-                <p className="text-[10px] text-muted truncate">{NODES.broker.sublabel}</p>
               </div>
+              <span className="px-2 py-0.5 rounded text-[9px] font-mono bg-gold/20 text-gold border border-gold/40 shadow-sm">
+                ISOLATION HUB
+              </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-1 text-[10px] font-mono pt-2 border-t border-white/10 text-center">
-              <div>
-                <div className="text-muted text-[9px]">TOTAL</div>
-                <div className="font-bold text-text">{nodeStats.broker.requests}</div>
+            <div className="relative grid grid-cols-3 gap-1.5 text-[10px] font-mono pt-2.5 border-t border-white/10 text-center">
+              <div className="bg-white/[0.03] p-1 rounded-lg">
+                <div className="text-muted text-[8px] uppercase tracking-wider">TOTAL</div>
+                <div className="font-bold text-text text-xs">{nodeStats.broker.requests}</div>
               </div>
-              <div>
-                <div className="text-green text-[9px]">ALLOWED</div>
-                <div className="font-bold text-green">{nodeStats.broker.allowed}</div>
+              <div className="bg-green/5 p-1 rounded-lg border border-green/20">
+                <div className="text-green text-[8px] uppercase tracking-wider">ALLOWED</div>
+                <div className="font-bold text-green text-xs">{nodeStats.broker.allowed}</div>
               </div>
-              <div>
-                <div className="text-red text-[9px]">BLOCKED</div>
-                <div className="font-bold text-red">{nodeStats.broker.blocked}</div>
+              <div className="bg-red/5 p-1 rounded-lg border border-red/20">
+                <div className="text-red text-[8px] uppercase tracking-wider">BLOCKED</div>
+                <div className="font-bold text-red text-xs">{nodeStats.broker.blocked}</div>
               </div>
             </div>
           </div>
@@ -521,9 +579,9 @@ export const TopologyPage: React.FC = () => {
             id="node-blue"
             onClick={() => setSelectedNode("blue")}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-200 select-none shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]",
+              "absolute -translate-x-1/2 -translate-y-1/2 w-56 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-300 select-none shadow-[0_10px_35px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.15)] group",
               selectedNode === "blue"
-                ? "ring-2 ring-blue scale-105 shadow-[0_0_24px_rgba(56,189,248,0.3)]"
+                ? "ring-2 ring-blue scale-105 shadow-[0_0_28px_rgba(56,189,248,0.35)]"
                 : "hover:scale-102 hover:border-white/40"
             )}
             style={{
@@ -533,18 +591,24 @@ export const TopologyPage: React.FC = () => {
               borderColor: NODES.blue.borderColor,
             }}
           >
-            <div className="flex items-center gap-2 mb-1.5">
-              <div className="p-1.5 rounded-lg bg-blue/30 text-blue">
-                <ShieldCheck className="w-4 h-4" />
+            <div className="pointer-events-none absolute -inset-1 rounded-2xl bg-blue/10 blur-lg" />
+            <div className="relative flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-blue/30 text-blue">
+                  <ShieldCheck className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-heading text-xs font-bold text-blue truncate">
+                    {NODES.blue.label}
+                  </h3>
+                  <p className="text-[10px] text-muted truncate">{NODES.blue.sublabel}</p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <h3 className="font-heading text-xs font-bold text-blue truncate">
-                  {NODES.blue.label}
-                </h3>
-                <p className="text-[10px] text-muted truncate">{NODES.blue.sublabel}</p>
-              </div>
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-blue/20 text-blue border border-blue/40">
+                DEFENDER
+              </span>
             </div>
-            <div className="grid grid-cols-2 gap-1 text-[10px] font-mono pt-2 border-t border-white/10">
+            <div className="relative grid grid-cols-2 gap-1 text-[10px] font-mono pt-2 border-t border-white/10">
               <div className="flex items-center justify-between">
                 <span className="text-muted">Verdicts:</span>
                 <span className="font-bold text-text">{nodeStats.blue.requests}</span>
@@ -561,9 +625,9 @@ export const TopologyPage: React.FC = () => {
             id="node-ledger"
             onClick={() => setSelectedNode("ledger")}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 w-52 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-200 select-none shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.15)]",
+              "absolute -translate-x-1/2 -translate-y-1/2 w-56 p-4 rounded-2xl border backdrop-blur-2xl cursor-pointer transition-all duration-300 select-none shadow-[0_10px_35px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.15)] group",
               selectedNode === "ledger"
-                ? "ring-2 ring-gold scale-105 shadow-[0_0_24px_rgba(245,158,11,0.3)]"
+                ? "ring-2 ring-gold scale-105 shadow-[0_0_28px_rgba(245,158,11,0.35)]"
                 : "hover:scale-102 hover:border-white/40"
             )}
             style={{
@@ -573,18 +637,24 @@ export const TopologyPage: React.FC = () => {
               borderColor: NODES.ledger.borderColor,
             }}
           >
-            <div className="flex items-center gap-2 mb-1.5">
-              <div className="p-1.5 rounded-lg bg-gold/30 text-gold">
-                <Database className="w-4 h-4" />
+            <div className="pointer-events-none absolute -inset-1 rounded-2xl bg-gold/10 blur-lg" />
+            <div className="relative flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-gold/30 text-gold">
+                  <Database className="w-4 h-4" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="font-heading text-xs font-bold text-gold truncate">
+                    {NODES.ledger.label}
+                  </h3>
+                  <p className="text-[10px] text-muted truncate">{NODES.ledger.sublabel}</p>
+                </div>
               </div>
-              <div className="min-w-0">
-                <h3 className="font-heading text-xs font-bold text-gold truncate">
-                  {NODES.ledger.label}
-                </h3>
-                <p className="text-[10px] text-muted truncate">{NODES.ledger.sublabel}</p>
-              </div>
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-gold/20 text-gold border border-gold/40">
+                AUDIT CHAIN
+              </span>
             </div>
-            <div className="flex items-center justify-between text-[10px] font-mono pt-2 border-t border-white/10">
+            <div className="relative flex items-center justify-between text-[10px] font-mono pt-2 border-t border-white/10">
               <span className="text-muted">Appends:</span>
               <span className="font-bold text-gold">{nodeStats.ledger.requests}</span>
             </div>
@@ -592,8 +662,11 @@ export const TopologyPage: React.FC = () => {
         </div>
 
         {/* Legend Panel */}
-        <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-2xl border border-white/15 rounded-2xl p-3 text-[11px] font-mono text-muted space-y-1.5 shadow-[0_8px_24px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]">
-          <div className="text-[10px] uppercase font-bold text-text mb-1 tracking-wider">Legend</div>
+        <div className="absolute bottom-5 left-5 bg-black/70 backdrop-blur-2xl border border-white/15 rounded-2xl p-3 text-[11px] font-mono text-muted space-y-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.1)]">
+          <div className="text-[10px] uppercase font-bold text-text mb-1 tracking-wider flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+            Topology Legend
+          </div>
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-0.5 bg-gold" />
             <span>Mediation Link</span>

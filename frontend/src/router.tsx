@@ -1,4 +1,6 @@
+import React, { useEffect } from "react";
 import { createBrowserRouter } from "react-router-dom";
+import { useAuthStore } from "./state/authStore";
 import { Layout } from "./components/Layout";
 import { LoginPage } from "./pages/Login";
 import { RequireRole } from "./components/RoleGuard";
@@ -15,6 +17,33 @@ import {
   AuditPage,
 } from "./pages/Placeholders";
 
+// Wrapper component that presents Vaultra Hero as public landing page before login,
+// and Live Topology once authenticated.
+const LandingOrTopology: React.FC = () => {
+  const { user, isAuthenticated, isLoading, fetchMe } = useAuthStore();
+
+  useEffect(() => {
+    if (!isAuthenticated && isLoading) {
+      fetchMe();
+    }
+  }, [isAuthenticated, isLoading, fetchMe]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+        <div className="w-8 h-8 rounded-full border-2 border-pink-400 border-t-transparent animate-spin" />
+        <p className="text-muted text-sm font-mono">Verifying authorization token...</p>
+      </div>
+    );
+  }
+
+  if (isAuthenticated && user) {
+    return <TopologyPage />;
+  }
+
+  return <VaultraHeroPage />;
+};
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +51,10 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <LandingOrTopology />,
+      },
+      {
+        path: "topology",
         element: (
           <RequireRole minRole="viewer">
             <TopologyPage />

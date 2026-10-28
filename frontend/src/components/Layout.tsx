@@ -48,10 +48,12 @@ const roleLevels: Record<string, number> = {
 export const Layout: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isLoginPage = location.pathname === "/login";
-  const apiMode = import.meta.env.VITE_API_MODE || "mock";
-
   const { user, isAuthenticated, fetchMe, logout } = useAuthStore();
+  const isLoginPage = location.pathname === "/login";
+  const isLandingPage =
+    (location.pathname === "/" && (!isAuthenticated || !user)) ||
+    location.pathname === "/vaultra";
+  const apiMode = import.meta.env.VITE_API_MODE || "mock";
 
   useEffect(() => {
     fetchMe();
@@ -71,7 +73,7 @@ export const Layout: React.FC = () => {
       <div className="pointer-events-none fixed -top-20 -right-20 h-[45vw] w-[45vw] rounded-full bg-[radial-gradient(circle,rgba(192,132,252,0.14)_0%,rgba(56,189,248,0.12)_40%,transparent_70%)] blur-[100px] z-0" aria-hidden="true" />
 
       {/* Left Sidebar */}
-      {!isLoginPage && (
+      {!isLoginPage && !isLandingPage && (
         <aside
           id="app-sidebar"
           className="relative z-10 w-64 flex-shrink-0 border-r border-white/10 bg-black/40 backdrop-blur-2xl flex flex-col justify-between p-4 shadow-[4px_0_24px_rgba(0,0,0,0.5)]"
@@ -143,106 +145,113 @@ export const Layout: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Header Bar */}
-        <header
-          id="app-topbar"
-          className="h-14 border-b border-white/[0.08] bg-black/40 backdrop-blur-2xl px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
-        >
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <Terminal className="w-4 h-4 text-gold" />
-              <span className="text-xs font-mono text-muted uppercase">Engine:</span>
-              <span className="text-xs font-mono text-text">Policy Broker v1.4.0</span>
-            </div>
-            <div className="h-4 w-px bg-white/10" />
-            <div className="flex items-center gap-2 text-xs font-mono text-muted">
-              <span>Run:</span>
-              <span className="text-gold font-semibold">IDLE</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            {/* Vaultra Hero Showcase */}
-            <NavLink
-              to="/vaultra"
-              id="vaultra-hero-topbar-link"
-              className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider uppercase border bg-gradient-to-r from-pink-500/15 via-purple-500/15 to-blue-500/15 hover:from-pink-500/25 hover:to-blue-500/25 text-pink-200 border-pink-400/40 backdrop-blur-md transition-all shadow-[0_0_16px_rgba(244,114,182,0.2)]"
-              title="Explore Vaultra Crypto Finance Hero"
-            >
-              <Sparkles className="w-3 h-3 text-pink-300 animate-pulse" />
-              <span>Vaultra</span>
-            </NavLink>
-
-            {/* Mode Badge */}
-            <div
-              id="mode-badge"
-              className={cn(
-                "px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase border backdrop-blur-md",
-                apiMode === "mock"
-                  ? "bg-gold/10 text-gold border-gold/30 shadow-[0_0_12px_rgba(245,158,11,0.15)]"
-                  : "bg-green/10 text-green border-green/30 shadow-[0_0_12px_rgba(16,185,129,0.15)]"
-              )}
-            >
-              {apiMode.toUpperCase()} MODE
-            </div>
-
-            {/* User Session Bar */}
-            {isLoginPage ? (
-              <NavLink
-                to="/"
-                className="text-xs text-muted hover:text-white font-medium flex items-center gap-1 transition-colors"
-              >
-                Back to Dashboard
-              </NavLink>
-            ) : isAuthenticated && user ? (
-              <div className="flex items-center gap-2.5">
-                <div
-                  id="user-profile-badge"
-                  className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] backdrop-blur-md border border-white/10 text-xs font-mono shadow-sm"
-                >
-                  <UserCheck className="w-3.5 h-3.5 text-blue" />
-                  <span className="text-text font-semibold">{user.username}</span>
-                  <span
-                    id="user-role-badge"
-                    className={cn(
-                      "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase",
-                      user.role === "admin"
-                        ? "bg-gold/20 text-gold border border-gold/40 shadow-[0_0_8px_rgba(245,158,11,0.2)]"
-                        : user.role === "operator"
-                        ? "bg-blue/20 text-blue border border-blue/40 shadow-[0_0_8px_rgba(56,189,248,0.2)]"
-                        : "bg-muted/20 text-muted border border-muted/40"
-                    )}
-                  >
-                    {user.role}
-                  </span>
-                </div>
-
-                <button
-                  id="logout-button"
-                  onClick={handleLogout}
-                  title="Sign out and close SSE streams"
-                  className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] hover:bg-red/20 hover:text-red hover:border-red/40 text-xs font-medium text-muted border border-white/10 backdrop-blur-md transition-all"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span>Sign Out</span>
-                </button>
+        {/* Top Header Bar (hidden on landing page since it has its own navigation) */}
+        {!isLandingPage && (
+          <header
+            id="app-topbar"
+            className="h-14 border-b border-white/[0.08] bg-black/40 backdrop-blur-2xl px-6 flex items-center justify-between flex-shrink-0 z-10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
+          >
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <Terminal className="w-4 h-4 text-gold" />
+                <span className="text-xs font-mono text-muted uppercase">Engine:</span>
+                <span className="text-xs font-mono text-text">Policy Broker v1.4.0</span>
               </div>
-            ) : (
+              <div className="h-4 w-px bg-white/10" />
+              <div className="flex items-center gap-2 text-xs font-mono text-muted">
+                <span>Run:</span>
+                <span className="text-gold font-semibold">IDLE</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              {/* Vaultra Hero Showcase */}
               <NavLink
-                to="/login"
-                id="login-nav-link"
-                className="flex items-center gap-1.5 px-4 py-1 rounded-full bg-white/[0.08] hover:bg-white/[0.15] text-xs font-medium text-text border border-white/15 backdrop-blur-md transition-all shadow-sm"
+                to="/vaultra"
+                id="vaultra-hero-topbar-link"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider uppercase border bg-gradient-to-r from-pink-500/15 via-purple-500/15 to-blue-500/15 hover:from-pink-500/25 hover:to-blue-500/25 text-pink-200 border-pink-400/40 backdrop-blur-md transition-all shadow-[0_0_16px_rgba(244,114,182,0.2)]"
+                title="Explore Vaultra Crypto Finance Hero"
               >
-                <LogIn className="w-3.5 h-3.5 text-muted" />
-                <span>Sign In</span>
+                <Sparkles className="w-3 h-3 text-pink-300 animate-pulse" />
+                <span>Vaultra</span>
               </NavLink>
-            )}
-          </div>
-        </header>
+
+              {/* Mode Badge */}
+              <div
+                id="mode-badge"
+                className={cn(
+                  "px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase border backdrop-blur-md",
+                  apiMode === "mock"
+                    ? "bg-gold/10 text-gold border-gold/30 shadow-[0_0_12px_rgba(245,158,11,0.15)]"
+                    : "bg-green/10 text-green border-green/30 shadow-[0_0_12px_rgba(16,185,129,0.15)]"
+                )}
+              >
+                {apiMode.toUpperCase()} MODE
+              </div>
+
+              {/* User Session Bar */}
+              {isLoginPage ? (
+                <NavLink
+                  to="/"
+                  className="text-xs text-muted hover:text-white font-medium flex items-center gap-1 transition-colors"
+                >
+                  Back to Dashboard
+                </NavLink>
+              ) : isAuthenticated && user ? (
+                <div className="flex items-center gap-2.5">
+                  <div
+                    id="user-profile-badge"
+                    className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] backdrop-blur-md border border-white/10 text-xs font-mono shadow-sm"
+                  >
+                    <UserCheck className="w-3.5 h-3.5 text-blue" />
+                    <span className="text-text font-semibold">{user.username}</span>
+                    <span
+                      id="user-role-badge"
+                      className={cn(
+                        "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase",
+                        user.role === "admin"
+                          ? "bg-gold/20 text-gold border border-gold/40 shadow-[0_0_8px_rgba(245,158,11,0.2)]"
+                          : user.role === "operator"
+                          ? "bg-blue/20 text-blue border border-blue/40 shadow-[0_0_8px_rgba(56,189,248,0.2)]"
+                          : "bg-muted/20 text-muted border border-muted/40"
+                      )}
+                    >
+                      {user.role}
+                    </span>
+                  </div>
+
+                  <button
+                    id="logout-button"
+                    onClick={handleLogout}
+                    title="Sign out and close SSE streams"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] hover:bg-red/20 hover:text-red hover:border-red/40 text-xs font-medium text-muted border border-white/10 backdrop-blur-md transition-all"
+                  >
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              ) : (
+                <NavLink
+                  to="/login"
+                  id="login-nav-link"
+                  className="flex items-center gap-1.5 px-4 py-1 rounded-full bg-white/[0.08] hover:bg-white/[0.15] text-xs font-medium text-text border border-white/15 backdrop-blur-md transition-all shadow-sm"
+                >
+                  <LogIn className="w-3.5 h-3.5 text-muted" />
+                  <span>Sign In</span>
+                </NavLink>
+              )}
+            </div>
+          </header>
+        )}
 
         {/* Page Content Body */}
-        <main className="flex-1 p-6 overflow-y-auto">
-          <div className="max-w-7xl mx-auto">
+        <main
+          className={cn(
+            "flex-1 overflow-y-auto",
+            isLandingPage ? "p-0 overflow-x-hidden" : "p-6"
+          )}
+        >
+          <div className={isLandingPage ? "w-full" : "max-w-7xl mx-auto"}>
             <Outlet />
           </div>
         </main>

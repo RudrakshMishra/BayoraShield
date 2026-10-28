@@ -6,9 +6,12 @@ import {
   Zap,
   ChevronDown,
   LayoutDashboard,
+  LogIn,
 } from "lucide-react";
+import { useAuthStore } from "../state/authStore";
 
 export const VaultraHeroPage: React.FC = () => {
+  const { isAuthenticated, user } = useAuthStore();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
 
@@ -47,7 +50,7 @@ export const VaultraHeroPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative -m-6 min-h-[calc(100vh-3.5rem)] flex flex-col justify-between items-center overflow-hidden bg-black text-white font-sans select-none">
+    <div className="relative w-full min-h-screen flex flex-col justify-between items-center overflow-hidden bg-black text-white font-sans select-none">
       {/* Ambient Radial Glowing Halos */}
       <div
         className="pointer-events-none absolute -bottom-16 -left-16 h-[45vw] w-[45vw] rounded-full bg-[radial-gradient(circle,rgba(239,68,68,0.18)_0%,transparent_70%)] blur-[90px]"
@@ -91,32 +94,52 @@ export const VaultraHeroPage: React.FC = () => {
       {/* Top Navbar */}
       <header className="relative z-20 flex w-full max-w-7xl items-center justify-between px-6 py-6 animate-in fade-in slide-in-from-top-4 duration-1000">
         {/* Brand */}
-        <div className="flex items-center gap-2">
-          <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent">
+        <Link to="/" className="flex items-center gap-2 group">
+          <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-pink-400 to-blue-400 bg-clip-text text-transparent group-hover:scale-105 transition-transform">
             //
           </span>
-          <span className="text-xl font-semibold tracking-tight text-white">Vaultra</span>
-        </div>
+          <span className="text-xl font-semibold tracking-tight text-white group-hover:text-pink-200 transition-colors">
+            Vaultra
+          </span>
+        </Link>
 
         {/* Center Nav Links Pill */}
         <nav className="hidden md:flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] p-1.5 backdrop-blur-xl shadow-2xl">
-          <button className="flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium text-white shadow-inner">
+          <Link
+            to="/"
+            className="flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium text-white shadow-inner"
+          >
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]" />
             Home
-          </button>
-          <a href="#invest" className="rounded-full px-4 py-1.5 text-xs text-white/70 hover:bg-white/5 hover:text-white transition-colors">
+          </Link>
+          <a
+            href="#invest"
+            className="rounded-full px-4 py-1.5 text-xs text-white/70 hover:bg-white/5 hover:text-white transition-colors"
+          >
             Invest
           </a>
-          <a href="#community" className="rounded-full px-4 py-1.5 text-xs text-white/70 hover:bg-white/5 hover:text-white transition-colors">
+          <a
+            href="#community"
+            className="rounded-full px-4 py-1.5 text-xs text-white/70 hover:bg-white/5 hover:text-white transition-colors"
+          >
             Community
           </a>
-          <a href="#blog" className="rounded-full px-4 py-1.5 text-xs text-white/70 hover:bg-white/5 hover:text-white transition-colors">
+          <a
+            href="#blog"
+            className="rounded-full px-4 py-1.5 text-xs text-white/70 hover:bg-white/5 hover:text-white transition-colors"
+          >
             Blog
           </a>
-          <a href="#for-business" className="rounded-full px-4 py-1.5 text-xs text-white/70 hover:bg-white/5 hover:text-white transition-colors">
+          <a
+            href="#for-business"
+            className="rounded-full px-4 py-1.5 text-xs text-white/70 hover:bg-white/5 hover:text-white transition-colors"
+          >
             For business
           </a>
-          <a href="#membership" className="rounded-full px-4 py-1.5 text-xs text-white/70 hover:bg-white/5 hover:text-white transition-colors">
+          <a
+            href="#membership"
+            className="rounded-full px-4 py-1.5 text-xs text-white/70 hover:bg-white/5 hover:text-white transition-colors"
+          >
             Membership
           </a>
         </nav>
@@ -129,20 +152,34 @@ export const VaultraHeroPage: React.FC = () => {
             <ChevronDown className="h-3 w-3 text-white/50" />
           </button>
 
-          <Link
-            to="/login"
-            className="hidden sm:inline-flex rounded-full border border-white/20 bg-transparent px-4 py-1.5 text-xs font-medium text-white hover:bg-white/10 transition-colors"
-          >
-            Log In
-          </Link>
-
-          <Link
-            to="/"
-            className="flex items-center gap-1.5 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-slate-950 shadow-lg shadow-white/20 hover:bg-slate-100 transition-all hover:scale-105"
-          >
-            <LayoutDashboard className="h-3.5 w-3.5 text-slate-900" />
-            <span>Dashboard</span>
-          </Link>
+          {isAuthenticated && user ? (
+            <Link
+              to="/"
+              id="vaultra-console-btn"
+              className="flex items-center gap-1.5 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-slate-950 shadow-lg shadow-white/20 hover:bg-slate-100 transition-all hover:scale-105"
+            >
+              <LayoutDashboard className="h-3.5 w-3.5 text-slate-900" />
+              <span>Open Console</span>
+            </Link>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                id="vaultra-login-btn"
+                className="hidden sm:inline-flex rounded-full border border-white/20 bg-transparent px-4 py-1.5 text-xs font-medium text-white hover:bg-white/10 transition-colors"
+              >
+                Log In
+              </Link>
+              <Link
+                to="/login"
+                id="vaultra-console-btn"
+                className="flex items-center gap-1.5 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-slate-950 shadow-lg shadow-white/20 hover:bg-slate-100 transition-all hover:scale-105"
+              >
+                <LogIn className="h-3.5 w-3.5 text-slate-900" />
+                <span>Launch Console</span>
+              </Link>
+            </>
+          )}
         </div>
       </header>
 
@@ -168,13 +205,14 @@ export const VaultraHeroPage: React.FC = () => {
 
         {/* Primary CTA */}
         <div className="animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-500">
-          <a
-            href="#get-started"
+          <Link
+            to={isAuthenticated ? "/" : "/login"}
+            id="vaultra-get-started-btn"
             className="group inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-slate-950 shadow-[0_4px_30px_rgba(255,255,255,0.3),0_0_50px_rgba(192,132,252,0.3)] hover:scale-105 transition-all duration-300"
           >
-            <span>Get Started</span>
+            <span>{isAuthenticated ? "Launch Console" : "Get Started"}</span>
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </a>
+          </Link>
         </div>
       </section>
 
