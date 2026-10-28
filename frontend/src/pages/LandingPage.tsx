@@ -40,7 +40,7 @@ const SLIDES: SlideMeta[] = [
   { id: "slide-02", num: "02", navLabel: "Live Topology", title: "5-Node Container Mesh", icon: Activity, accentColor: "#c81b1c" },
   { id: "slide-03", num: "03", navLabel: "Event Feed", title: "Payload-Free Streams", icon: Layers, accentColor: "#c81b1c" },
   { id: "slide-04", num: "04", navLabel: "Breach Wall", title: "Attack Detection", icon: ShieldAlert, accentColor: "#c81b1c" },
-  { id: "slide-05", num: "05", navLabel: "Baseline vs Bayor Shield", title: "Stack Benchmark", icon: GitCompare, accentColor: "#c81b1c" },
+  { id: "slide-05", num: "05", navLabel: "Baseline vs Bayora Shield", title: "Stack Benchmark", icon: GitCompare, accentColor: "#c81b1c" },
   { id: "slide-06", num: "06", navLabel: "Ledger Explorer", title: "SHA-256 Hash Chaining", icon: ScrollText, accentColor: "#c81b1c" },
   { id: "slide-07", num: "07", navLabel: "Results & Metrics", title: "Robustness Scorecard", icon: BarChart3, accentColor: "#c81b1c" },
   { id: "slide-08", num: "08", navLabel: "Run Control", title: "Adversarial Campaigns", icon: PlayCircle, accentColor: "#c81b1c" },
@@ -198,7 +198,7 @@ export const LandingPage: React.FC = () => {
           </div>
           <div>
             <div className="font-heading font-bold text-base tracking-wide flex items-center gap-2">
-              <span className="text-white">Bayor Shield</span>
+              <span className="text-white">Bayora Shield</span>
               <span className="px-1.5 py-0.2 rounded-none text-[9px] font-mono bg-[#c81b1c]/20 text-[#c81b1c] border border-[#c81b1c]/40 font-bold">
                 TRACK 04
               </span>
@@ -796,7 +796,7 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* ========================================================================= */}
-      {/* SLIDE 05: BASELINE VS BAYOR SHIELD COMPARISON */}
+      {/* SLIDE 05: BASELINE VS BAYORA SHIELD COMPARISON */}
       {/* ========================================================================= */}
       <section
         id="slide-05"
@@ -810,10 +810,10 @@ export const LandingPage: React.FC = () => {
               <span>Feature 04 • Head-to-Head Comparison</span>
             </div>
             <h2 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
-              Baseline Stack vs Bayor Shield Mesh
+              Baseline Stack vs Bayora Shield Mesh
             </h2>
             <p className="max-w-2xl text-sm sm:text-base text-[#949494] font-mono leading-relaxed">
-              Empirical proof of isolation superiority. See how Bayor Shield drops cross-cell
+              Empirical proof of isolation superiority. See how Bayora Shield drops cross-cell
               evasion rate from 84.6% to absolute 0.0%.
             </p>
           </div>
@@ -830,7 +830,7 @@ export const LandingPage: React.FC = () => {
                     : "text-[#949494] hover:text-white"
                 )}
               >
-                BAYOR SHIELD ISOLATED MESH
+                BAYORA SHIELD ISOLATED MESH
               </button>
               <button
                 onClick={() => setCompareStack("baseline")}
@@ -854,7 +854,7 @@ export const LandingPage: React.FC = () => {
                   {compareStack === "shield" ? (
                     <>
                       <ShieldCheck className="w-6 h-6 text-[#10B981]" />
-                      <span>Bayor Shield Architecture</span>
+                      <span>Bayora Shield Architecture</span>
                     </>
                   ) : (
                     <>
@@ -1285,7 +1285,7 @@ export const LandingPage: React.FC = () => {
           {/* Final Call to Action Box */}
           <div className="p-8 sm:p-12 rounded-none border border-[#c81b1c]/50 bg-black/90 backdrop-blur-2xl space-y-6 text-center">
             <h3 className="font-heading text-2xl sm:text-3xl font-bold text-white">
-              Ready to explore the Bayor Shield security mesh?
+              Ready to explore the Bayora Shield security mesh?
             </h3>
             <p className="text-xs sm:text-sm text-[#949494] font-mono max-w-lg mx-auto">
               Sign in to access Live Topology, streaming Event Feed, Breach Wall telemetry,
@@ -1309,7 +1309,7 @@ export const LandingPage: React.FC = () => {
 
           {/* Slide 10 Footer */}
           <footer className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#949494] gap-4">
-            <div>Bayor Shield • Adversarial AI Safety Sandbox (Track 04)</div>
+            <div>Bayora Shield • Adversarial AI Safety Sandbox (Track 04)</div>
             <div className="flex items-center gap-4">
               <button onClick={() => scrollToSlide(0)} className="hover:text-white transition-colors">
                 Back to Top ↑

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bayor Shield — Security built into every system layer</title>
+<title>Bayora Shield — Security built into every system layer</title>
 
 <!-- Fonts: Space Grotesk ('SG') and JetBrains Mono ('JB') with font-display: block -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -658,7 +658,7 @@
     </div>
     <div>
       <div class="brand-text">
-        <span>Bayor Shield</span>
+        <span>Bayora Shield</span>
         <span class="brand-badge">TRACK 04</span>
       </div>
       <div class="brand-sub">Adversarial AI Safety • Sealed Sandbox</div>
@@ -710,7 +710,7 @@
   </button>
   <button type="button" class="rail-dot" data-slide="4" title="05. Baseline vs Shield">
     <span></span>
-    <div class="rail-tooltip">05 • Baseline vs Bayor Shield</div>
+    <div class="rail-tooltip">05 • Baseline vs Bayora Shield</div>
   </button>
   <button type="button" class="rail-dot" data-slide="5" title="06. Ledger Explorer">
     <span></span>
@@ -1003,7 +1003,7 @@
   </section>
 
   <!-- ========================================================================= -->
-  <!-- SLIDE 05: BASELINE VS BAYOR SHIELD COMPARISON -->
+  <!-- SLIDE 05: BASELINE VS BAYORA SHIELD COMPARISON -->
   <!-- ========================================================================= -->
   <section class="slide" id="slide-05">
     <div class="slide-inner">
@@ -1012,16 +1012,16 @@
         <span>Feature 04 • Head-to-Head Comparison</span>
       </div>
 
-      <h2 class="slide-headline">Baseline Stack vs Bayor Shield Mesh</h2>
+      <h2 class="slide-headline">Baseline Stack vs Bayora Shield Mesh</h2>
       <p class="slide-sub">
-        Empirical proof of isolation superiority. See how Bayor Shield drops cross-cell
+        Empirical proof of isolation superiority. See how Bayora Shield drops cross-cell
         evasion rate from 84.6% to absolute 0.0%.
       </p>
 
       <!-- Switcher Bar -->
       <div style="display: flex; justify-content: center;">
         <div style="display: inline-flex; padding: 4px; background: #000; border: 1px solid var(--border);">
-          <button type="button" id="tab-shield" class="btn-outline" style="background: var(--red); border: none; font-weight: 700;" onclick="setComparison('shield')">BAYOR SHIELD ISOLATED MESH</button>
+          <button type="button" id="tab-shield" class="btn-outline" style="background: var(--red); border: none; font-weight: 700;" onclick="setComparison('shield')">BAYORA SHIELD ISOLATED MESH</button>
           <button type="button" id="tab-baseline" class="btn-outline" style="border: none; color: var(--muted);" onclick="setComparison('baseline')">UNPROTECTED BASELINE</button>
         </div>
       </div>
@@ -1029,7 +1029,7 @@
       <div class="cyber-card cyber-card-bright">
         <div class="grid-2" style="align-items: center;">
           <div style="display: flex; flex-direction: column; gap: 16px;">
-            <h3 style="font-size: 20px; font-weight: 700; color: #fff;" id="compare-title">Bayor Shield Architecture</h3>
+            <h3 style="font-size: 20px; font-weight: 700; color: #fff;" id="compare-title">Bayora Shield Architecture</h3>
             <p style="font-size: 12px; color: var(--muted); font-family: var(--font-mono); line-height: 1.6;" id="compare-desc">
               Sealed policy mediation between all actors. Read-only rootfs, CAP_DROP_ALL, strict seccomp filtering, and write-only append socket to immutable ledger.
             </p>
@@ -1353,7 +1353,7 @@
 
       <!-- Final Launch Box -->
       <div class="cyber-card" style="border-color: rgba(200, 27, 28, 0.5); text-align: center; padding: 48px 32px; display: flex; flex-direction: column; align-items: center; gap: 20px;">
-        <h3 style="font-size: 28px; font-weight: 700; color: #fff;">Ready to explore the Bayor Shield security mesh?</h3>
+        <h3 style="font-size: 28px; font-weight: 700; color: #fff;">Ready to explore the Bayora Shield security mesh?</h3>
         <p style="font-size: 13px; color: var(--muted); font-family: var(--font-mono); max-width: 600px;">
           Sign in to access Live Topology, streaming Event Feed, Breach Wall telemetry,
           Ledger Explorer, and automated Run Controls.
@@ -1369,7 +1369,7 @@
 
       <!-- Slide 10 Footer -->
       <footer class="slide-footer">
-        <div>Bayor Shield • Adversarial AI Safety Sandbox (Track 04)</div>
+        <div>Bayora Shield • Adversarial AI Safety Sandbox (Track 04)</div>
         <div style="display: flex; gap: 16px; align-items: center;">
           <a href="#slide-01" style="color: var(--muted); text-decoration: none;" onclick="goToSlide(0)">Back to Top ↑</a>
           <span>•</span>
@@ -1391,7 +1391,7 @@
     { id: "slide-02", num: "02", name: "Live Topology" },
     { id: "slide-03", num: "03", name: "Event Feed" },
     { id: "slide-04", num: "04", name: "Breach Wall" },
-    { id: "slide-05", num: "05", name: "Baseline vs Bayor Shield" },
+    { id: "slide-05", num: "05", name: "Baseline vs Bayora Shield" },
     { id: "slide-06", num: "06", name: "Ledger Explorer" },
     { id: "slide-07", num: "07", name: "Results & Metrics" },
     { id: "slide-08", num: "08", name: "Run Control" },
@@ -1508,7 +1508,7 @@
     });
   }
 
-  // Interactive Baseline vs Bayor Shield
+  // Interactive Baseline vs Bayora Shield
   function setComparison(stack) {
     const tabShield = document.getElementById("tab-shield");
     const tabBaseline = document.getElementById("tab-baseline");
@@ -1526,7 +1526,7 @@
       tabBaseline.style.background = "transparent";
       tabBaseline.style.color = "var(--muted)";
 
-      title.textContent = "Bayor Shield Architecture";
+      title.textContent = "Bayora Shield Architecture";
       desc.textContent = "Sealed policy mediation between all actors. Read-only rootfs, CAP_DROP_ALL, strict seccomp filtering, and write-only append socket to immutable ledger.";
       row1.textContent = "FORBIDDEN (0 links)";
       row1.style.color = "var(--green)";

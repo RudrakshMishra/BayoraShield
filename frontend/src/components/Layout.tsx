@@ -111,7 +111,7 @@ export const Layout: React.FC = () => {
                     color: "#ffffff",
                   }}
                 >
-                  Bayor Shield
+                  Bayora Shield
                 </div>
                 <div className="text-[10px] uppercase font-mono tracking-wider text-muted">
                   Adversarial AI Safety • Track 04
