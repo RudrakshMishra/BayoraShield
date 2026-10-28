@@ -62,6 +62,14 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "dashboard",
+        element: (
+          <RequireRole minRole="viewer">
+            <TopologyPage />
+          </RequireRole>
+        ),
+      },
+      {
         path: "events",
         element: (
           <RequireRole minRole="viewer">
