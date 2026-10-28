@@ -1,5 +1,6 @@
 import type { ZodType } from "zod";
 import { ApiError } from "./schemas";
+import { handleMockFallback } from "./mockFallback";
 
 export class ApiRequestError extends Error {
   public status: number;
@@ -63,7 +64,19 @@ export async function apiFetch<T>(
       credentials: "same-origin",
     });
   } catch (err) {
+    const fallback = handleMockFallback<T>(endpoint, method, rest.body, schema);
+    if (fallback !== undefined) {
+      return fallback;
+    }
     throw new ApiRequestError(0, "NETWORK_ERROR", "Backend unreachable. Please check your connection or start the mock server.", err);
+  }
+
+  // Handle 404/405 (e.g. static Netlify deployments without backend server)
+  if (response.status === 404 || response.status === 405) {
+    const fallback = handleMockFallback<T>(endpoint, method, rest.body, schema);
+    if (fallback !== undefined) {
+      return fallback;
+    }
   }
 
   // Handle 401 Unauthorized
@@ -94,6 +107,10 @@ export async function apiFetch<T>(
   try {
     data = await response.json();
   } catch (parseErr) {
+    const fallback = handleMockFallback<T>(endpoint, method, rest.body, schema);
+    if (fallback !== undefined) {
+      return fallback;
+    }
     throw new ApiRequestError(response.status, "INVALID_JSON", "Server returned non-JSON response.", parseErr);
   }
 

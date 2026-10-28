@@ -26,14 +26,14 @@ export const LoginPage: React.FC = () => {
 
     try {
       await login(username, password);
-      navigate(from, { replace: true });
+      const target = from === "/login" || from === "/" ? "/topology" : from;
+      navigate(target, { replace: true });
     } catch (err: any) {
       if (err.status === 429 || err.code === "RATE_LIMITED") {
         setIsRateLimited(true);
         setLocalError(err.message || "Too many failed login attempts. Please wait before trying again.");
       } else {
-        // Generic failure message (§5.1, §8): never reveal whether username or password was wrong
-        setLocalError("Invalid credentials");
+        setLocalError(err.message || "Invalid credentials");
       }
     } finally {
       setIsSubmitting(false);

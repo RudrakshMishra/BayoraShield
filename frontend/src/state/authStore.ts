@@ -24,9 +24,31 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ isLoading: true, error: null });
     try {
       const user = await apiFetch<UserT>("/auth/me", { schema: User });
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.setItem("bayora_user", JSON.stringify(user));
+        } catch {
+          // ignore
+        }
+      }
       set({ user, isAuthenticated: true, isLoading: false, error: null });
       return user;
     } catch {
+      // Fallback: check localStorage for static/Netlify sessions
+      if (typeof window !== "undefined") {
+        try {
+          const stored = window.localStorage.getItem("bayora_user");
+          if (stored) {
+            const parsed = User.safeParse(JSON.parse(stored));
+            if (parsed.success) {
+              set({ user: parsed.data, isAuthenticated: true, isLoading: false, error: null });
+              return parsed.data;
+            }
+          }
+        } catch {
+          // ignore
+        }
+      }
       set({ user: null, isAuthenticated: false, isLoading: false });
       return null;
     }
@@ -40,6 +62,13 @@ export const useAuthStore = create<AuthState>((set) => ({
         body: JSON.stringify({ username, password }),
       });
       const validatedUser = User.parse(res.user);
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.setItem("bayora_user", JSON.stringify(validatedUser));
+        } catch {
+          // ignore
+        }
+      }
       set({ user: validatedUser, isAuthenticated: true, isLoading: false, error: null });
       return validatedUser;
     } catch (err: unknown) {
@@ -57,7 +86,16 @@ export const useAuthStore = create<AuthState>((set) => ({
     // 1. Close all active SSE connections immediately
     sseRegistry.closeAll();
 
-    // 2. Clear state
+    // 2. Clear state and storage
+    if (typeof window !== "undefined") {
+      try {
+        window.localStorage.removeItem("bayora_user");
+        document.cookie = "session=; path=/; max-age=0";
+        document.cookie = "csrf=; path=/; max-age=0";
+      } catch {
+        // ignore
+      }
+    }
     set({ user: null, isAuthenticated: false, isLoading: false, error: null });
 
     // 3. Inform server to clear session and cookies

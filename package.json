@@ -13,6 +13,7 @@
     "start": "node server.js",
     "serve": "node server.js",
     "test": "npm run test --prefix frontend",
+    "test:backend": "npx tsx test-backend.ts",
     "typecheck": "npm run typecheck --prefix frontend",
     "lint": "npm run lint --prefix frontend",
     "e2e": "npm run e2e --prefix frontend"

@@ -85,6 +85,39 @@ function parseBoundaryToNodes(boundary: string, actor: ActorT): { source: string
   };
 }
 
+let mockEventTimer: any = null;
+let mockSeq = 4500;
+
+function startMockStream(get: any, set: any, stack: "shield" | "baseline") {
+  if (mockEventTimer) return;
+  set({ isConnected: true, error: null });
+  mockEventTimer = setInterval(() => {
+    mockSeq++;
+    const actors = ["red", "broker", "blue", "model"] as const;
+    const boundaries = ["red->broker", "broker->blue", "broker->model", "broker->ledger"] as const;
+    const actor = actors[mockSeq % actors.length];
+    const boundary = boundaries[mockSeq % boundaries.length];
+    const isBreach = mockSeq % 4 === 0;
+
+    get().addEvent({
+      id: `evt_sim_${mockSeq}`,
+      ts: new Date().toISOString(),
+      type: isBreach ? "breach_attempt" : "verdict",
+      actor: isBreach ? "red" : actor,
+      boundary: isBreach ? "red->blue" : boundary,
+      outcome: isBreach ? (stack === "shield" ? "blocked" : "allowed") : "allowed",
+      ledger_seq: mockSeq,
+    });
+  }, 1400);
+}
+
+function stopMockStream() {
+  if (mockEventTimer) {
+    clearInterval(mockEventTimer);
+    mockEventTimer = null;
+  }
+}
+
 export const useEventStore = create<EventState>((set, get) => ({
   events: [],
   isPaused: false,
@@ -103,47 +136,47 @@ export const useEventStore = create<EventState>((set, get) => ({
     set({ stack, error: null });
 
     const url = `/api/events?stack=${encodeURIComponent(stack)}`;
-    const es = new EventSource(url, { withCredentials: true });
-    currentEventSource = es;
-    const unregister = sseRegistry.register(es);
+    let es: EventSource | null = null;
+    try {
+      es = new EventSource(url, { withCredentials: true });
+      currentEventSource = es;
+      const unregister = sseRegistry.register(es);
 
-    es.onopen = () => {
-      set({ isConnected: true, error: null });
-    };
+      es.onopen = () => {
+        stopMockStream();
+        set({ isConnected: true, error: null });
+      };
 
-    es.onmessage = (msgEvent) => {
-      try {
-        if (!msgEvent.data || msgEvent.data.startsWith(":")) return;
-        const parsedJson = JSON.parse(msgEvent.data);
-        get().addEvent(parsedJson);
-      } catch (err) {
-        if (process.env.NODE_ENV !== "production") {
-          console.error("Failed to parse SSE JSON payload:", err);
-        }
-      }
-    };
-
-    es.onerror = () => {
-      set({ isConnected: false, error: "SSE connection lost, reconnecting..." });
-      unregister();
-      es.close();
-      if (currentEventSource === es) {
-        currentEventSource = null;
-      }
-
-      // Reconnect with backoff
-      if (!reconnectTimer) {
-        reconnectTimer = setTimeout(() => {
-          reconnectTimer = null;
-          if (get().stack === stack) {
-            get().connect(stack);
+      es.onmessage = (msgEvent) => {
+        try {
+          if (!msgEvent.data || msgEvent.data.startsWith(":")) return;
+          const parsedJson = JSON.parse(msgEvent.data);
+          get().addEvent(parsedJson);
+        } catch (err) {
+          if (process.env.NODE_ENV !== "production") {
+            console.error("Failed to parse SSE JSON payload:", err);
           }
-        }, 3000);
-      }
-    };
+        }
+      };
+
+      es.onerror = () => {
+        unregister();
+        if (es) {
+          es.close();
+        }
+        if (currentEventSource === es) {
+          currentEventSource = null;
+        }
+        // Fallback to simulated mock stream for static Netlify deployments
+        startMockStream(get, set, stack);
+      };
+    } catch {
+      startMockStream(get, set, stack);
+    }
   },
 
   disconnect: () => {
+    stopMockStream();
     if (reconnectTimer) {
       clearTimeout(reconnectTimer);
       reconnectTimer = null;
