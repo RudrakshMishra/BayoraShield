@@ -59,7 +59,7 @@ export const LoginPage: React.FC = () => {
               <ShieldCheck className="w-7 h-7" />
             </div>
             <h1 className="gradient-headline font-heading text-2xl font-bold tracking-tight">
-              Sign in to BayoraShield
+              Sign in to Bayor Shield
             </h1>
             <p className="text-muted text-xs font-mono uppercase tracking-[0.18em]">
               Adversarial AI Safety • Security Console

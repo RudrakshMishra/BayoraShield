@@ -93,10 +93,10 @@ export const Layout: React.FC = () => {
               <span
                 className="text-xl font-bold tracking-tight"
                 style={{
-                  background: "linear-gradient(90deg, #f472b6, #c084fc, #38bdf8)",
+                  background: "linear-gradient(90deg, #c81b1c, #ffffff)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  color: "#ffffff",
+                  color: "#c81b1c",
                 }}
               >
                 //
@@ -105,13 +105,13 @@ export const Layout: React.FC = () => {
                 <div
                   className="font-heading font-bold text-base tracking-wide flex items-center gap-1.5"
                   style={{
-                    background: "linear-gradient(90deg, #fce7f3, #ffffff, #e9d5ff)",
+                    background: "linear-gradient(90deg, #ffffff, #e6e6e6)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     color: "#ffffff",
                   }}
                 >
-                  BayoraShield
+                  Bayor Shield
                 </div>
                 <div className="text-[10px] uppercase font-mono tracking-wider text-muted">
                   Adversarial AI Safety • Track 04

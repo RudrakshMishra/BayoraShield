@@ -17,7 +17,7 @@ import {
   AuditPage,
 } from "./pages/Placeholders";
 
-// Wrapper component that presents the 10-slide BayoraShield Landing Page as the public
+// Wrapper component that presents the 10-slide Bayor Shield Landing Page as the public
 // landing page before login, and Live Topology once authenticated.
 const LandingOrTopology: React.FC = () => {
   const { user, isAuthenticated, isLoading, fetchMe } = useAuthStore();
