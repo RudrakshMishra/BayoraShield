@@ -6,7 +6,7 @@ import { LoginPage } from "./pages/Login";
 import { RequireRole } from "./components/RoleGuard";
 import { TopologyPage } from "./pages/Topology";
 import { EventsPage } from "./pages/Events";
-import { VaultraHeroPage } from "./pages/VaultraHero";
+import { LandingPage } from "./pages/LandingPage";
 import {
   BreachPage,
   ComparePage,
@@ -17,8 +17,8 @@ import {
   AuditPage,
 } from "./pages/Placeholders";
 
-// Wrapper component that presents Vaultra Hero as public landing page before login,
-// and Live Topology once authenticated.
+// Wrapper component that presents the 10-slide BayoraShield Landing Page as the public
+// landing page before login, and Live Topology once authenticated.
 const LandingOrTopology: React.FC = () => {
   const { user, isAuthenticated, isLoading, fetchMe } = useAuthStore();
 
@@ -41,7 +41,7 @@ const LandingOrTopology: React.FC = () => {
     return <TopologyPage />;
   }
 
-  return <VaultraHeroPage />;
+  return <LandingPage />;
 };
 
 export const router = createBrowserRouter([
@@ -130,8 +130,12 @@ export const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
+        path: "landing",
+        element: <LandingPage />,
+      },
+      {
         path: "vaultra",
-        element: <VaultraHeroPage />,
+        element: <LandingPage />,
       },
     ],
   },

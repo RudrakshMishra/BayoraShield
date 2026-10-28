@@ -14,7 +14,6 @@ import {
   LogOut,
   Terminal,
   UserCheck,
-  Sparkles,
 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { useAuthStore } from "../state/authStore";
@@ -36,7 +35,6 @@ const navItems: NavItem[] = [
   { name: "Run Control", path: "/runs", icon: PlayCircle, minRole: "operator" },
   { name: "Threat Model", path: "/threat-model", icon: Lock, minRole: "viewer" },
   { name: "Audit Status", path: "/audit", icon: FileCheck2, minRole: "viewer" },
-  { name: "Vaultra Hero", path: "/vaultra", icon: Sparkles, minRole: "viewer" },
 ];
 
 const roleLevels: Record<string, number> = {
@@ -52,6 +50,7 @@ export const Layout: React.FC = () => {
   const isLoginPage = location.pathname === "/login";
   const isLandingPage =
     (location.pathname === "/" && (!isAuthenticated || !user)) ||
+    location.pathname === "/landing" ||
     location.pathname === "/vaultra";
   const apiMode = import.meta.env.VITE_API_MODE || "mock";
 
@@ -165,17 +164,6 @@ export const Layout: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Vaultra Hero Showcase */}
-              <NavLink
-                to="/vaultra"
-                id="vaultra-hero-topbar-link"
-                className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-bold tracking-wider uppercase border bg-gradient-to-r from-pink-500/15 via-purple-500/15 to-blue-500/15 hover:from-pink-500/25 hover:to-blue-500/25 text-pink-200 border-pink-400/40 backdrop-blur-md transition-all shadow-[0_0_16px_rgba(244,114,182,0.2)]"
-                title="Explore Vaultra Crypto Finance Hero"
-              >
-                <Sparkles className="w-3 h-3 text-pink-300 animate-pulse" />
-                <span>Vaultra</span>
-              </NavLink>
-
               {/* Mode Badge */}
               <div
                 id="mode-badge"
