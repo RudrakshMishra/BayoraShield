@@ -30,6 +30,8 @@ export default [
         clearInterval: "readonly",
         HTMLInputElement: "readonly",
         EventSource: "readonly",
+        Blob: "readonly",
+        URL: "readonly",
       },
     },
     plugins: {
