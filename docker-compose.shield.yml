@@ -2,8 +2,9 @@ name: bayorashield-shield
 
 services:
   broker:
-    image: python:3.12-slim
-    command: ["python", "-c", "import http.server; http.server.HTTPServer(('0.0.0.0',8001),http.server.SimpleHTTPRequestHandler).serve_forever()"]
+    build:
+      context: .
+      dockerfile: services/broker/Dockerfile
     user: "10001:10001"
     read_only: true
     cap_drop: [ALL]
@@ -11,6 +12,10 @@ services:
     pids_limit: 128
     mem_limit: 512m
     cpus: 1.0
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
     networks: [net_red, net_model, net_ledger, net_ctrl]
 
   blue:
@@ -41,8 +46,9 @@ services:
     networks: [net_model]
 
   ledger:
-    image: python:3.12-slim
-    command: ["python", "-c", "print('ledger read listener stub')"]
+    build:
+      context: .
+      dockerfile: services/ledger/Dockerfile
     user: "10001:10001"
     read_only: true
     cap_drop: [ALL]
@@ -50,11 +56,16 @@ services:
     pids_limit: 128
     mem_limit: 512m
     cpus: 0.5
+    ports:
+      - "8003:8003"
+    environment:
+      - PORT=8003
     networks: [net_ledger, net_ctrl]
 
   dashboard-api:
-    image: python:3.12-slim
-    command: ["python", "-c", "print('dashboard API stub')"]
+    build:
+      context: .
+      dockerfile: services/dashboard_api/Dockerfile
     user: "10001:10001"
     read_only: true
     cap_drop: [ALL]
@@ -62,6 +73,10 @@ services:
     pids_limit: 128
     mem_limit: 512m
     cpus: 0.5
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
     networks: [net_front, net_ctrl]
 
 networks:

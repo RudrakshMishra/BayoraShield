@@ -1,15 +1,36 @@
 name: bayorashield-baseline
 
 services:
-  baseline-emitter:
-    image: python:3.12-slim
-    command: ["python", "-c", "print('baseline comparison fixture')"]
-    networks: [baseline]
-    volumes:
-      - baseline-shared:/shared
+  broker:
+    build:
+      context: .
+      dockerfile: services/broker/Dockerfile
+    ports:
+      - "8011:8001"
+    environment:
+      - PORT=8001
+    networks: [net_shared]
+
+  ledger:
+    build:
+      context: .
+      dockerfile: services/ledger/Dockerfile
+    ports:
+      - "8013:8003"
+    environment:
+      - PORT=8003
+    networks: [net_shared]
+
+  dashboard-api:
+    build:
+      context: .
+      dockerfile: services/dashboard_api/Dockerfile
+    ports:
+      - "8010:8000"
+    environment:
+      - PORT=8000
+    networks: [net_shared]
 
 networks:
-  baseline:
-
-volumes:
-  baseline-shared:
+  net_shared:
+    driver: bridge
