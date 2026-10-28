@@ -2,9 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { LoginPage } from "./pages/Login";
 import { RequireRole } from "./components/RoleGuard";
+import { TopologyPage } from "./pages/Topology";
+import { EventsPage } from "./pages/Events";
+import { VaultraHeroPage } from "./pages/VaultraHero";
 import {
-  TopologyPage,
-  EventsPage,
   BreachPage,
   ComparePage,
   LedgerPage,
@@ -94,6 +95,10 @@ export const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginPage />,
+      },
+      {
+        path: "vaultra",
+        element: <VaultraHeroPage />,
       },
     ],
   },

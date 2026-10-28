@@ -15,6 +15,7 @@ import {
   Cpu,
   Terminal,
   UserCheck,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { useAuthStore } from "../state/authStore";
@@ -36,6 +37,7 @@ const navItems: NavItem[] = [
   { name: "Run Control", path: "/runs", icon: PlayCircle, minRole: "operator" },
   { name: "Threat Model", path: "/threat-model", icon: Lock, minRole: "viewer" },
   { name: "Audit Status", path: "/audit", icon: FileCheck2, minRole: "viewer" },
+  { name: "Vaultra Hero", path: "/vaultra", icon: Sparkles, minRole: "viewer" },
 ];
 
 const roleLevels: Record<string, number> = {
@@ -157,6 +159,17 @@ export const Layout: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
+            {/* Vaultra Hero Showcase */}
+            <NavLink
+              to="/vaultra"
+              id="vaultra-hero-topbar-link"
+              className="flex items-center gap-1.5 px-2.5 py-0.5 rounded text-[11px] font-mono font-bold tracking-wider uppercase border bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-blue-500/10 hover:from-pink-500/20 hover:to-blue-500/20 text-pink-300 border-pink-500/30 transition-all shadow-sm"
+              title="Explore Vaultra Crypto Finance Hero"
+            >
+              <Sparkles className="w-3 h-3 text-pink-400 animate-pulse" />
+              <span>Vaultra</span>
+            </NavLink>
+
             {/* Mode Badge */}
             <div
               id="mode-badge"

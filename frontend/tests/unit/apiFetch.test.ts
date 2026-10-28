@@ -106,6 +106,8 @@ describe("apiFetch wrapper", () => {
     });
     vi.stubGlobal("fetch", mockFetch);
 
-    await expect(apiFetch("/test", { schema })).rejects.toThrow("Received invalid data shape");
+    await expect(apiFetch("/test", { schema })).rejects.toThrow(
+      "Received invalid data shape"
+    );
   });
 });

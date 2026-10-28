@@ -29,6 +29,7 @@ export default [
         setInterval: "readonly",
         clearInterval: "readonly",
         HTMLInputElement: "readonly",
+        HTMLVideoElement: "readonly",
         EventSource: "readonly",
         Blob: "readonly",
         URL: "readonly",

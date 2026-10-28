@@ -119,7 +119,9 @@ export async function apiFetch<T>(
   if (schema) {
     const validation = schema.safeParse(data);
     if (!validation.success) {
-      console.error("Zod schema validation failed for", url);
+      if (process.env.NODE_ENV !== "production") {
+        console.error("Zod schema validation failed for", url, validation.error.message);
+      }
       throw new ApiRequestError(
         500,
         "SCHEMA_VALIDATION_ERROR",

@@ -14,7 +14,8 @@ test.describe("Milestone F3: Authentication, Role Gating, and Session Lifecycle"
     await expect(page).toHaveURL(/.*\/login/);
 
     // 2. Login failure: generic error message (never reveal username or password validity)
-    await page.fill("#username-input", "attacker_probe");
+    const probeUser = `probe_${Date.now()}`;
+    await page.fill("#username-input", probeUser);
     await page.fill("#password-input", "incorrect-pass");
     await page.click("#login-submit-button");
 
