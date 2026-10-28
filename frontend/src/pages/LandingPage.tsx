@@ -141,16 +141,33 @@ export const LandingPage: React.FC = () => {
       <div className="pointer-events-none fixed -top-24 -right-24 h-[50vw] w-[50vw] rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.15)_0%,rgba(192,132,252,0.12)_40%,transparent_70%)] blur-[120px] z-0" aria-hidden="true" />
 
       {/* Sticky Floating Cosmic Topbar */}
-      <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-2xl bg-black/50 border-b border-white/10 transition-all">
+      <header className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-4 backdrop-blur-2xl bg-black/60 border-b border-white/10 transition-all">
         {/* Brand */}
         <Link to="/" className="flex items-center gap-2.5 group">
-          <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-pink-400 via-purple-300 to-blue-400 bg-clip-text text-transparent group-hover:scale-105 transition-transform">
+          <span
+            className="text-2xl font-black tracking-tight group-hover:scale-105 transition-transform"
+            style={{
+              background: "linear-gradient(90deg, #f472b6, #c084fc, #38bdf8)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              color: "#ffffff",
+            }}
+          >
             //
           </span>
           <div>
-            <div className="font-heading font-bold text-base tracking-wide bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent flex items-center gap-2">
-              <span>BayoraShield</span>
-              <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-gold/20 text-gold border border-gold/40">
+            <div className="font-heading font-bold text-base tracking-wide flex items-center gap-2">
+              <span
+                style={{
+                  background: "linear-gradient(90deg, #fce7f3, #ffffff, #e9d5ff)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  color: "#ffffff",
+                }}
+              >
+                BayoraShield
+              </span>
+              <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40">
                 Track 04
               </span>
             </div>
@@ -252,22 +269,33 @@ export const LandingPage: React.FC = () => {
       {/* ========================================================================= */}
       <section
         id="slide-01"
-        className="relative min-h-screen w-full flex flex-col justify-between items-center overflow-hidden pt-20 pb-12 select-none"
+        className="relative min-h-screen w-full flex flex-col justify-between items-center overflow-hidden pt-24 pb-8 px-4 select-none"
       >
-        {/* Globe Media Plate (Masked) */}
+        {/* Globe Media Plate (Full screen, borderless, mix-blend-screen) */}
         <div
           className="pointer-events-none absolute inset-0 z-0 flex items-end justify-center overflow-hidden"
-          style={{
-            maskImage: "radial-gradient(ellipse 95% 85% at 50% 60%, black 50%, transparent 90%)",
-            WebkitMaskImage: "radial-gradient(ellipse 95% 85% at 50% 60%, black 50%, transparent 90%)",
-          }}
           aria-hidden="true"
         >
+          {/* Ambient bottom atmospheric glow behind the globe */}
+          <div
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[2000px] h-[75vh] pointer-events-none"
+            style={{
+              background: "radial-gradient(ellipse 80% 55% at 50% 100%, rgba(244,63,94,0.18) 0%, rgba(168,85,247,0.14) 30%, rgba(56,189,248,0.10) 60%, transparent 85%)",
+            }}
+          />
+
+          {/* Dotted Particle Globe Still Fallback */}
           <img
             src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/f1631235-0a76-464d-8f1d-2c4b48a997d5.jpg"
             alt="BayoraShield Particle Globe"
-            className="absolute -bottom-[12vh] left-1/2 w-screen max-w-[1600px] -translate-x-1/2 object-contain transition-opacity duration-1000"
+            className="absolute -bottom-10 sm:-bottom-16 md:-bottom-24 left-1/2 w-full max-w-[2200px] h-[80vh] sm:h-[88vh] -translate-x-1/2 object-contain object-bottom mix-blend-screen transition-opacity duration-1000"
+            style={{
+              maskImage: "radial-gradient(ellipse 90% 80% at 50% 75%, black 40%, transparent 95%)",
+              WebkitMaskImage: "radial-gradient(ellipse 90% 80% at 50% 75%, black 40%, transparent 95%)",
+            }}
           />
+
+          {/* Rotating Dotted Particle Globe Video */}
           <video
             ref={videoRef}
             src="https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/e71aea27-a808-4ae3-8231-a469d49285d4.mp4"
@@ -276,54 +304,74 @@ export const LandingPage: React.FC = () => {
             loop
             playsInline
             preload="auto"
-            className={`absolute -bottom-[12vh] left-1/2 w-screen max-w-[1600px] -translate-x-1/2 object-contain transition-opacity duration-1000 ${
+            className={cn(
+              "absolute -bottom-10 sm:-bottom-16 md:-bottom-24 left-1/2 w-full max-w-[2200px] h-[80vh] sm:h-[88vh] -translate-x-1/2 object-contain object-bottom mix-blend-screen transition-opacity duration-1000",
               videoReady ? "opacity-100" : "opacity-0"
-            }`}
+            )}
+            style={{
+              maskImage: "radial-gradient(ellipse 90% 80% at 50% 75%, black 40%, transparent 95%)",
+              WebkitMaskImage: "radial-gradient(ellipse 90% 80% at 50% 75%, black 40%, transparent 95%)",
+            }}
           />
         </div>
 
-        {/* Floating Security Glass Chips */}
+        {/* Floating Cyber Glass Chips */}
         <div
-          className="pointer-events-auto absolute left-[12%] top-[34%] hidden md:flex h-11 w-11 items-center justify-center rounded-full border border-amber-500/30 bg-[#12141d]/60 text-amber-400 backdrop-blur-xl shadow-2xl font-bold hover:scale-110 transition-all cursor-pointer animate-bounce duration-[4000ms]"
+          className="pointer-events-auto absolute left-[6%] sm:left-[12%] top-[30%] hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border border-amber-500/30 bg-[#0f111a]/70 text-amber-300 backdrop-blur-xl shadow-[0_0_20px_rgba(245,158,11,0.2)] text-xs font-mono hover:scale-105 transition-all cursor-default"
           title="SHA-256 Hardness"
         >
-          ₿
+          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/20 text-amber-400 font-bold">₿</span>
+          <span className="font-semibold">SHA-256 Proof</span>
         </div>
+
         <div
-          className="pointer-events-auto absolute left-[20%] top-[60%] hidden md:flex h-11 w-11 items-center justify-center rounded-full border border-rose-500/30 bg-[#12141d]/60 text-rose-400 backdrop-blur-xl shadow-2xl font-bold hover:scale-110 transition-all cursor-pointer animate-bounce duration-[5000ms]"
+          className="pointer-events-auto absolute left-[10%] sm:left-[16%] top-[56%] hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border border-rose-500/30 bg-[#0f111a]/70 text-rose-300 backdrop-blur-xl shadow-[0_0_20px_rgba(244,63,94,0.2)] text-xs font-mono hover:scale-105 transition-all cursor-default"
           title="Red Cell Boundary"
         >
-          🛡️
+          <ShieldAlert className="w-4 h-4 text-rose-400" />
+          <span className="font-semibold">Red Cell Quarantined</span>
         </div>
+
         <div
-          className="pointer-events-auto absolute right-[20%] top-[58%] hidden md:flex h-11 w-11 items-center justify-center rounded-full border border-blue-500/30 bg-[#12141d]/60 text-blue-400 backdrop-blur-xl shadow-2xl font-bold hover:scale-110 transition-all cursor-pointer animate-bounce duration-[4500ms]"
+          className="pointer-events-auto absolute right-[10%] sm:right-[16%] top-[54%] hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-500/30 bg-[#0f111a]/70 text-blue-300 backdrop-blur-xl shadow-[0_0_20px_rgba(56,189,248,0.2)] text-xs font-mono hover:scale-105 transition-all cursor-default"
           title="Blue Evaluator Judge"
         >
-          ⚖️
+          <ShieldCheck className="w-4 h-4 text-blue-400" />
+          <span className="font-semibold">Blue Team Classifier</span>
         </div>
+
         <div
-          className="pointer-events-auto absolute right-[12%] top-[32%] hidden md:flex h-11 w-11 items-center justify-center rounded-full border border-purple-500/30 bg-[#12141d]/60 text-purple-400 backdrop-blur-xl shadow-2xl font-bold hover:scale-110 transition-all cursor-pointer animate-bounce duration-[5500ms]"
+          className="pointer-events-auto absolute right-[6%] sm:right-[12%] top-[28%] hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full border border-purple-500/30 bg-[#0f111a]/70 text-purple-300 backdrop-blur-xl shadow-[0_0_20px_rgba(192,132,252,0.2)] text-xs font-mono hover:scale-105 transition-all cursor-default"
           title="Cryptographic Hash Chain"
         >
-          ⛓️
+          <Lock className="w-4 h-4 text-purple-400" />
+          <span className="font-semibold">Zero Socket Leakage</span>
         </div>
 
         {/* Slide 1 Center Content */}
-        <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-4 text-center my-auto pt-10 pb-8">
+        <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-4 text-center my-auto pt-8 pb-4">
           {/* Glass Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.05] px-4 py-1.5 text-xs font-mono font-medium text-white/90 backdrop-blur-xl shadow-xl mb-6">
-            <Zap className="h-3.5 w-3.5 text-amber-400 fill-amber-400 drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]" />
+          <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-5 py-2 text-xs sm:text-sm font-mono font-medium text-amber-300 backdrop-blur-xl shadow-[0_0_20px_rgba(245,158,11,0.2)] mb-6">
+            <Zap className="h-4 w-4 text-amber-400 fill-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
             <span>Adversarial AI Safety • Track 04 Sandbox Platform</span>
           </div>
 
-          {/* Headline */}
-          <h1 className="max-w-4xl text-3xl sm:text-5xl md:text-6xl font-light tracking-tight leading-[1.12] mb-6 bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
-            Zero-Trust Architectural Isolation<br />
+          {/* Grand Headline - Guaranteed High-Contrast Chrome Gradient */}
+          <h1
+            className="max-w-5xl text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.08] mb-6 drop-shadow-[0_8px_32px_rgba(0,0,0,0.9)]"
+            style={{
+              background: "linear-gradient(135deg, #ffffff 0%, #fce7f3 40%, #ffffff 70%, #d8b4fe 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              color: "#ffffff",
+            }}
+          >
+            Zero-Trust Architectural Isolation<br className="hidden sm:inline" />
             For Adversarial AI Evaluation
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-2xl text-sm sm:text-base font-normal text-slate-300/80 leading-relaxed mb-8">
+          <p className="max-w-3xl text-base sm:text-lg md:text-xl font-normal text-slate-200/90 leading-relaxed mb-8 drop-shadow-md">
             Cryptographically verifiable container sandbox separating Model, Red Team attack harnesses,
             and Blue Team judges through sealed policy mediation and payload-free metadata streams.
           </p>
@@ -333,7 +381,7 @@ export const LandingPage: React.FC = () => {
             <Link
               to={isAuthenticated ? "/" : "/login"}
               id="slide-01-get-started-btn"
-              className="group inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-slate-950 shadow-[0_4px_30px_rgba(255,255,255,0.3),0_0_50px_rgba(192,132,252,0.3)] hover:scale-105 transition-all duration-300"
+              className="group inline-flex items-center gap-3 rounded-full bg-white px-8 py-4 text-sm sm:text-base font-bold text-slate-950 shadow-[0_0_35px_rgba(255,255,255,0.4),0_0_70px_rgba(192,132,252,0.3)] hover:scale-105 transition-all duration-300"
             >
               <span>{isAuthenticated ? "Launch Console" : "Get Started"}</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -341,39 +389,48 @@ export const LandingPage: React.FC = () => {
 
             <button
               onClick={() => scrollToSlide(1)}
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.04] px-6 py-3.5 text-sm font-medium text-white hover:bg-white/10 backdrop-blur-md transition-colors"
+              className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/[0.06] backdrop-blur-xl px-7 py-4 text-sm sm:text-base font-medium text-white hover:bg-white/15 transition-all"
             >
               <span>Explore All 10 Modules</span>
               <ArrowDown className="h-4 w-4 text-gold animate-bounce" />
             </button>
           </div>
 
-          {/* Live Invariant Stats */}
-          <div className="grid grid-cols-3 gap-4 mt-12 max-w-xl w-full text-center font-mono">
-            <div className="p-3 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
-              <div className="text-xl font-bold text-red">0</div>
-              <div className="text-[10px] text-muted uppercase">Cross-Cell Links</div>
+          {/* Live Invariant Stats Console Bar */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-10 max-w-3xl w-full text-center font-mono">
+            <div className="p-4 sm:p-5 rounded-2xl border border-rose-500/30 bg-black/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(244,63,94,0.15)] hover:border-rose-500/50 transition-all">
+              <div className="text-2xl sm:text-3xl font-black text-rose-400 drop-shadow-[0_0_12px_rgba(244,63,94,0.6)]">0</div>
+              <div className="text-xs text-white/90 font-bold uppercase mt-1">Cross-Cell Links</div>
+              <div className="text-[10px] text-white/50 mt-0.5">Linux cgroup isolated</div>
             </div>
-            <div className="p-3 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
-              <div className="text-xl font-bold text-gold">100%</div>
-              <div className="text-[10px] text-muted uppercase">SHA-256 Chained</div>
+            <div className="p-4 sm:p-5 rounded-2xl border border-amber-500/30 bg-black/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(245,158,11,0.15)] hover:border-amber-500/50 transition-all">
+              <div className="text-2xl sm:text-3xl font-black text-amber-300 drop-shadow-[0_0_12px_rgba(245,158,11,0.6)]">100%</div>
+              <div className="text-xs text-white/90 font-bold uppercase mt-1">SHA-256 Chained</div>
+              <div className="text-[10px] text-white/50 mt-0.5">Append-only Merkle ledger</div>
             </div>
-            <div className="p-3 rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md">
-              <div className="text-xl font-bold text-green">0.00%</div>
-              <div className="text-[10px] text-muted uppercase">Payload Leakage</div>
+            <div className="p-4 sm:p-5 rounded-2xl border border-emerald-500/30 bg-black/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(16,185,129,0.15)] hover:border-emerald-500/50 transition-all">
+              <div className="text-2xl sm:text-3xl font-black text-emerald-400 drop-shadow-[0_0_12px_rgba(16,185,129,0.6)]">0.00%</div>
+              <div className="text-xs text-white/90 font-bold uppercase mt-1">Payload Leakage</div>
+              <div className="text-[10px] text-white/50 mt-0.5">Zero prompt body egress</div>
             </div>
           </div>
         </div>
 
         {/* Bottom Scroll Hint */}
-        <footer className="relative z-10 flex flex-col items-center">
-          <div className="flex items-center gap-6 text-[11px] font-mono tracking-widest uppercase text-white/50">
+        <footer className="relative z-10 flex flex-col items-center pt-2 pb-4">
+          <button
+            onClick={() => scrollToSlide(1)}
+            className="flex items-center gap-4 text-xs font-mono tracking-widest uppercase text-white/70 hover:text-white transition-colors"
+          >
             <span>SLIDE 01 / 10</span>
-            <div className="flex h-8 w-5 justify-center rounded-full border border-white/30 p-1">
-              <div className="h-1.5 w-1 rounded-full bg-white animate-pulse" />
+            <div className="flex h-7 w-4 justify-center rounded-full border border-white/40 p-1">
+              <div className="h-1.5 w-1 rounded-full bg-gold animate-bounce" />
             </div>
-            <span>SCROLL DOWN</span>
-          </div>
+            <span className="flex items-center gap-1 text-gold">
+              <span>SCROLL TO EXPLORE</span>
+              <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
+            </span>
+          </button>
         </footer>
       </section>
 
@@ -390,7 +447,15 @@ export const LandingPage: React.FC = () => {
               <Activity className="w-3.5 h-3.5" />
               <span>Feature 01 • Live Topology</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-light tracking-tight bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
+            <h2
+              className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+              style={{
+                background: "linear-gradient(135deg, #ffffff 0%, #fce7f3 45%, #ffffff 75%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "#ffffff",
+              }}
+            >
               5-Node Sealed Container Mesh
             </h2>
             <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300/80 leading-relaxed">
@@ -542,7 +607,15 @@ export const LandingPage: React.FC = () => {
               <Layers className="w-3.5 h-3.5" />
               <span>Feature 02 • Real-Time Event Feed</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-light tracking-tight bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
+            <h2
+              className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+              style={{
+                background: "linear-gradient(135deg, #ffffff 0%, #fce7f3 45%, #ffffff 75%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "#ffffff",
+              }}
+            >
               Payload-Free Real-Time Streams
             </h2>
             <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300/80 leading-relaxed">
@@ -658,7 +731,15 @@ export const LandingPage: React.FC = () => {
               <ShieldAlert className="w-3.5 h-3.5" />
               <span>Feature 03 • Breach Wall</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-light tracking-tight bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
+            <h2
+              className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+              style={{
+                background: "linear-gradient(135deg, #ffffff 0%, #fce7f3 45%, #ffffff 75%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "#ffffff",
+              }}
+            >
               Live Threat Telemetry & Mitigation
             </h2>
             <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300/80 leading-relaxed">
@@ -746,7 +827,15 @@ export const LandingPage: React.FC = () => {
               <GitCompare className="w-3.5 h-3.5" />
               <span>Feature 04 • Head-to-Head Comparison</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-light tracking-tight bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
+            <h2
+              className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+              style={{
+                background: "linear-gradient(135deg, #ffffff 0%, #fce7f3 45%, #ffffff 75%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "#ffffff",
+              }}
+            >
               Baseline Stack vs BayoraShield Mesh
             </h2>
             <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300/80 leading-relaxed">
@@ -864,7 +953,15 @@ export const LandingPage: React.FC = () => {
               <ScrollText className="w-3.5 h-3.5" />
               <span>Feature 05 • Ledger Explorer</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-light tracking-tight bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
+            <h2
+              className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+              style={{
+                background: "linear-gradient(135deg, #ffffff 0%, #fce7f3 45%, #ffffff 75%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "#ffffff",
+              }}
+            >
               Tamper-Evident SHA-256 Hash Chain
             </h2>
             <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300/80 leading-relaxed">
@@ -951,7 +1048,15 @@ export const LandingPage: React.FC = () => {
               <BarChart3 className="w-3.5 h-3.5" />
               <span>Feature 06 • Results & Metrics</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-light tracking-tight bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
+            <h2
+              className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+              style={{
+                background: "linear-gradient(135deg, #ffffff 0%, #fce7f3 45%, #ffffff 75%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "#ffffff",
+              }}
+            >
               Precision Robustness Scorecards
             </h2>
             <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300/80 leading-relaxed">
@@ -1012,7 +1117,15 @@ export const LandingPage: React.FC = () => {
               <PlayCircle className="w-3.5 h-3.5" />
               <span>Feature 07 • Run Control</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-light tracking-tight bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
+            <h2
+              className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+              style={{
+                background: "linear-gradient(135deg, #ffffff 0%, #fce7f3 45%, #ffffff 75%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "#ffffff",
+              }}
+            >
               Automated Adversarial Orchestration
             </h2>
             <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300/80 leading-relaxed">
@@ -1077,7 +1190,15 @@ export const LandingPage: React.FC = () => {
               <Lock className="w-3.5 h-3.5" />
               <span>Feature 08 • Threat Model</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-light tracking-tight bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
+            <h2
+              className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+              style={{
+                background: "linear-gradient(135deg, #ffffff 0%, #fce7f3 45%, #ffffff 75%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "#ffffff",
+              }}
+            >
               Comprehensive STRIDE Defense Invariants
             </h2>
             <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300/80 leading-relaxed">
@@ -1170,7 +1291,15 @@ export const LandingPage: React.FC = () => {
               <FileCheck2 className="w-3.5 h-3.5" />
               <span>Feature 09 • Cryptographic Attestation</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-light tracking-tight bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent">
+            <h2
+              className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]"
+              style={{
+                background: "linear-gradient(135deg, #ffffff 0%, #fce7f3 45%, #ffffff 75%, #c084fc 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "#ffffff",
+              }}
+            >
               Enterprise-Ready AI Safety Compliance
             </h2>
             <p className="max-w-xl mx-auto text-sm sm:text-base text-slate-300/80 leading-relaxed">

@@ -65,6 +65,16 @@ export const Layout: React.FC = () => {
 
   const userLevel = user ? roleLevels[user.role] || 0 : 0;
 
+  // On the public landing page, render a clean full-screen canvas so the 10 slides
+  // have true 100vw/100vh native window scroll without parent container clipping.
+  if (isLandingPage) {
+    return (
+      <div className="w-full min-h-screen bg-black text-text selection:bg-pink-500/30 selection:text-white">
+        <Outlet />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex bg-bg text-text relative overflow-hidden">
       {/* Ambient background glows */}
@@ -80,11 +90,27 @@ export const Layout: React.FC = () => {
           <div className="space-y-6">
             {/* Branding Header */}
             <div className="flex items-center space-x-3 px-2 py-1">
-              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-pink to-blue bg-clip-text text-transparent">
+              <span
+                className="text-xl font-bold tracking-tight"
+                style={{
+                  background: "linear-gradient(90deg, #f472b6, #c084fc, #38bdf8)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  color: "#ffffff",
+                }}
+              >
                 //
               </span>
               <div>
-                <div className="font-heading font-bold text-base tracking-wide bg-gradient-to-r from-pink-200 via-white to-purple-200 bg-clip-text text-transparent flex items-center gap-1.5">
+                <div
+                  className="font-heading font-bold text-base tracking-wide flex items-center gap-1.5"
+                  style={{
+                    background: "linear-gradient(90deg, #fce7f3, #ffffff, #e9d5ff)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    color: "#ffffff",
+                  }}
+                >
                   BayoraShield
                 </div>
                 <div className="text-[10px] uppercase font-mono tracking-wider text-muted">

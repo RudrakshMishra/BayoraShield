@@ -49,9 +49,19 @@ body {
 }
 
 .gradient-headline {
-  background: linear-gradient(90deg, #fbcfe8 0%, #ffffff 30%, #ffffff 70%, #e9d5ff 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #fce7f3 40%, #ffffff 70%, #c084fc 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #ffffff;
+}
+
+.gradient-brand {
+  background: linear-gradient(90deg, #f472b6 0%, #ffffff 50%, #c084fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #ffffff;
 }
 
 /* Custom scrollbars */
